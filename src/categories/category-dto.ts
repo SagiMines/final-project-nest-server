@@ -1,8 +1,6 @@
-import { IsNotEmpty, IsInt, MaxLength } from 'class-validator'
-
-
+import { IsNotEmpty, IsInt, MaxLength, IsOptional } from 'class-validator'
 export class CategoryDto {
-
+    @IsOptional()
     @IsNotEmpty()
     @IsInt()
     id: number
