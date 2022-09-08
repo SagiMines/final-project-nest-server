@@ -9,17 +9,18 @@ import { CategoriesModule } from './categories/categories.module';
 import { ProductImagesModule } from './product-images/product-images.module';
 import { Users } from './users/entities/users.entity';
 import { AddUserMiddleware } from './middlewares/add-user.middleware';
+import { ProductImagesService } from './product-images/product-images.service';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true
   }), ProductsModule, UsersModule, CategoriesModule, ProductImagesModule, TypeOrmModule.forRoot({
     type: 'mysql',
-    host: 'localhost',
+    host: process.env.HOST,
     port: 3306,
-    username: 'root',
-    password: 'sagi1990',
-    database: 'workshopdb_copy',
+    username: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
     entities: ['dist/**/*.entity{.ts,.js}'],
     synchronize: false
   }),],

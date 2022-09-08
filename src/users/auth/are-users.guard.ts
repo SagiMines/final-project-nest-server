@@ -10,6 +10,5 @@ export class AreUsersGuard implements CanActivate {
   ): Promise<boolean> {
     const isUsers = (await this.usersService.getUsers()).length > 0
     return isUsers
-    return Promise.resolve(true);
   }
 }

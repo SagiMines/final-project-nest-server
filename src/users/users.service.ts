@@ -40,6 +40,10 @@ export class UsersService {
         return this.usersRepo.findOne({id})
     }
 
+    findByEmail(email: string) {
+        return this.usersRepo.findOne({email})
+    }
+
 
     // getUser(id: number): UserDto | undefined {
     //     const found = this._users.find(user => user.id === id)
