@@ -7,6 +7,9 @@ import * as bcrypt from 'bcrypt'
 export class AddUserMiddleware implements NestMiddleware {
     constructor(private readonly usersService: UsersService){}
     async use(req: Request, res: Response, next: NextFunction) {
+        if(await this.usersService.findByEmail(req.body.email)){
+            throw new HttpException('Email already in use', HttpStatus.BAD_REQUEST)
+        }
         const salt = await bcrypt.genSalt();
         const hashedUserPassword = await bcrypt.hash(req.body.password, salt);
         req.body.password = hashedUserPassword;
