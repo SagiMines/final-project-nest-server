@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductImagesModule } from './product-images/product-images.module';
 import { Users } from './users/entities/users.entity';
+import { AddUserMiddleware } from './middlewares/add-user.middleware';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -25,4 +26,13 @@ import { Users } from './users/entities/users.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AddUserMiddleware).forRoutes(
+      {
+        path:'/register',
+        method: RequestMethod.POST
+      }
+    )
+  }
+}
