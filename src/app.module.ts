@@ -10,7 +10,8 @@ import { ProductImagesModule } from './product-images/product-images.module';
 import { Users } from './users/entities/users.entity';
 import { AddUserMiddleware } from './middlewares/add-user.middleware';
 import { ProductImagesService } from './product-images/product-images.service';
-
+import * as dotenv from 'dotenv'
+dotenv.config()
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true

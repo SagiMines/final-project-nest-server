@@ -11,6 +11,7 @@ export class AppController {
   }
 
   @Post('register')
+  //assiged middleware
   addUser() {
     throw new HttpException('OK', HttpStatus.OK)
   }
