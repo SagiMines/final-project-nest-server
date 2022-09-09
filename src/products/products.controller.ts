@@ -1,6 +1,7 @@
-import { Controller, Get, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
-import { AreProductsGuard } from './auth/are-products.guard';
-import { IsProductGuard } from './auth/is-product.guard';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
+// import { AreProductsGuard } from './auth/are-products.guard';
+// import { IsProductGuard } from './auth/is-product.guard';
+import { Products } from './entities/products.entity';
 import { ProductDto } from './product-dto';
 import { ProductsService } from './products.service';
 
@@ -9,14 +10,19 @@ export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
     
     @Get()
-    @UseGuards(AreProductsGuard)
-    getProducts(): ProductDto[]{
+    // assigned middleware
+    getProducts(): Promise<Products[]>{
         return this.productsService.getProducts()
     }
 
     @Get(':id')
-    @UseGuards(IsProductGuard)
-    getProduct(@Param('id', ParseIntPipe) id: number): ProductDto{
+    // assigned middleware
+    getProduct(@Param('id', ParseIntPipe) id: number): Promise<Products>{
         return this.productsService.getProduct(id)
+    }
+
+    @Post()
+    addProduct(@Body() product: ProductDto): Promise<Products> {
+        return this.productsService.addProduct(product)
     }
 }
