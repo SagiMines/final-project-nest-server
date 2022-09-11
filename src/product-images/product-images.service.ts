@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ProductImages } from './entities/product-images.entity';
 import { ProductImagesDto } from './product-images-dto';
 
 @Injectable()
 export class ProductImagesService {
+    constructor(@InjectRepository(ProductImages) private productImagesRepo: Repository<ProductImages>) {}
 
-    private _productImages: ProductImagesDto[] = [
-        {
-            id: 1,
-            productId: 1,
-            imageSrc: 'https://www.milwaukeetool.com/-/media/Products/Power-Tools/Cordless/Drills/2804-20_1.png?mh=520&mw=520&hash=AE3622694F0579295DE37C1F4BC89010'
-        }
-    ]
+    getProductImages(): Promise<ProductImages[]> {
+        return this.productImagesRepo.find()
+    }
 
-    getImagesByProductId(id: number): ProductImagesDto[] {
-        const productImages = this._productImages.filter(image => image.productId === id)
-        return productImages
+    getImagesByProductId(id: number): Promise<ProductImages[]> {
+        return this.productImagesRepo.find({ where: {productId: id} })
+    }
+
+    addProductImage(productImage: ProductImagesDto): Promise<ProductImages> {
+        return this.productImagesRepo.save(productImage)
     }
 }

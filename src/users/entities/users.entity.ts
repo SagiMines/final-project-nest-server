@@ -51,10 +51,4 @@ export class Users {
         nullable: false, type: 'varchar', length: 250,
     })
     password: string
-
-    // @OneToMany(() => Orders2, (order) => order.customer)
-    // orders: Orders2[]
-
-    // @CreateDateColumn()
-    // dob: Date;
 }

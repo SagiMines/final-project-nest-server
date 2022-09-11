@@ -1,17 +1,14 @@
 import { Categories } from "../../categories/entities/categories.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ProductImages } from "../../product-images/entities/product-images.entity";
 
 @Entity()
 export class Products {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({name: 'category_id'})
+    @Column({name: 'category_id', nullable: false, type: 'int'})
     categoryId: number
-
-    @ManyToOne(() => Categories, (category) => category.product, {onDelete: 'CASCADE',nullable: false})
-    @JoinColumn({name: 'category_id' })
-    category: Categories
 
     @Column({
         name: 'product_name', nullable: false,
@@ -43,4 +40,11 @@ export class Products {
         name: 'publish_date', nullable: true, type: 'datetime',
     })
     publishDate: string
+
+    @ManyToOne(() => Categories, (category) => category.product, {onDelete: 'CASCADE',nullable: false})
+    @JoinColumn({name: 'category_id' })
+    category: Categories
+
+    @OneToMany(() => ProductImages, image => image.product)
+    image: ProductImages[]
 }
