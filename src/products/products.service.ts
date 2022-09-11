@@ -17,6 +17,10 @@ export class ProductsService {
         return this.productsRepo.findOne({id})
     }
 
+    getProductByCategory(categoryId: number): Promise<Products[]> {
+        return this.productsRepo.find({ where: {categoryId} })
+    }
+
     addProduct(product: ProductDto): Promise<Products> {
         return this.productsRepo.save(product)
     }

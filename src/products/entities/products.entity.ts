@@ -1,6 +1,7 @@
 import { Categories } from "../../categories/entities/categories.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ProductImages } from "../../product-images/entities/product-images.entity";
+import { TopProducts } from "../../top-products/entities/top-product.entity";
 
 @Entity()
 export class Products {
@@ -47,4 +48,7 @@ export class Products {
 
     @OneToMany(() => ProductImages, image => image.product)
     image: ProductImages[]
+
+    @OneToOne(() => TopProducts, topProducts => topProducts.products)
+    topProducts: TopProducts
 }

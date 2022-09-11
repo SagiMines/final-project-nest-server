@@ -21,17 +21,6 @@ export class UsersController {
         return this.usersService.findByEmail(email)
     }
     
-    
-    // @Get()
-    // @UseGuards(AreUsersGuard)
-    // getUsers(){
-    //     return this.usersService.getUsers()
-    // }
-
-    
-   
-   
-    
     @Post()
     addUser(@Body() user: UserDto) {
         this.usersService.addUser(user) 

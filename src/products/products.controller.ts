@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
 // import { AreProductsGuard } from './auth/are-products.guard';
 // import { IsProductGuard } from './auth/is-product.guard';
 import { Products } from './entities/products.entity';
@@ -11,7 +11,10 @@ export class ProductsController {
     
     @Get()
     // assigned middleware
-    getProducts(): Promise<Products[]>{
+    getProducts(@Query('category-id') categoryId: number): Promise<Products[]>{
+        if(categoryId) {
+            return this.productsService.getProductByCategory(categoryId)
+        }
         return this.productsService.getProducts()
     }
 
