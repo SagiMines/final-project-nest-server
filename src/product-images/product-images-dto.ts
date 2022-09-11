@@ -1,8 +1,9 @@
-import { IsNotEmpty, MaxLength, IsInt } from 'class-validator'
+import { IsNotEmpty, MaxLength, IsInt, IsOptional } from 'class-validator'
 
 
 export class ProductImagesDto {
 
+    @IsOptional()
     @IsNotEmpty()
     @IsInt()
     id: number
