@@ -10,7 +10,8 @@ import { IsOrderExistMiddleware } from './middlewares/is-order-exist.middleware'
 @Module({
   imports: [TypeOrmModule.forFeature([Orders]), UsersModule],
   controllers: [OrdersController],
-  providers: [OrdersService]
+  providers: [OrdersService],
+  exports: [OrdersService]
 })
 export class OrdersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
