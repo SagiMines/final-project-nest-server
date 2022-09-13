@@ -1,7 +1,8 @@
 import { Categories } from "../../categories/entities/categories.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ProductImages } from "../../product-images/entities/product-images.entity";
 import { TopProducts } from "../../top-products/entities/top-product.entity";
+import { Wishlist } from "../../wishlist/entities/wishlist.entity";
 
 @Entity()
 export class Products {
@@ -51,4 +52,8 @@ export class Products {
 
     @OneToOne(() => TopProducts, topProducts => topProducts.products)
     topProducts: TopProducts
+
+    @ManyToMany(() => Wishlist, wishlist => wishlist.products)
+    wishlist: Wishlist[]
+
 }
