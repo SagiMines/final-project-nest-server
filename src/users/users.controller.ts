@@ -1,11 +1,8 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
-import { runInThisContext } from 'vm';
-import { IsUserGuard } from './auth/is-user.guard';
-import { AreUsersGuard } from './auth/are-users.guard';
+import { IsUserGuard } from './auth/is-user.guard';;
 // import { AuthUserDetailsGuard } from './auth/auth-user-details.guard';
 import { UserDto } from './user-dto';
 import { UsersService } from './users.service';
-import { UsersRepository } from './repository/users.repository';
 import { Users } from './entities/users.entity';
 
 @Controller('users')
