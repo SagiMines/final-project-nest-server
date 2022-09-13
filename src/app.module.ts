@@ -13,6 +13,7 @@ import { ProductImagesService } from './product-images/product-images.service';
 import { TopProductsModule } from './top-products/top-products.module';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { OrdersModule } from './orders/orders.module';
+import { OrderDetailsModule } from './order-details/order-details.module';
 import * as dotenv from 'dotenv'
 dotenv.config()
 @Module({
@@ -27,7 +28,7 @@ dotenv.config()
     database: process.env.DATABASE,
     entities: ['dist/**/*.entity{.ts,.js}'],
     synchronize: false
-  }), TopProductsModule, WishlistModule, OrdersModule,],
+  }), TopProductsModule, WishlistModule, OrdersModule, OrderDetailsModule,],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne,
 import { ProductImages } from "../../product-images/entities/product-images.entity";
 import { TopProducts } from "../../top-products/entities/top-product.entity";
 import { Wishlist } from "../../wishlist/entities/wishlist.entity";
+import { OrderDetails } from "../../order-details/entities/order-detail.entity";
 
 @Entity()
 export class Products {
@@ -55,5 +56,8 @@ export class Products {
 
     @ManyToMany(() => Wishlist, wishlist => wishlist.products)
     wishlist: Wishlist[]
+
+    @OneToOne(() => OrderDetails, orderDetails => orderDetails.products)
+    orderDetails: OrderDetails
 
 }
