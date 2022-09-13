@@ -11,6 +11,7 @@ import { Users } from './users/entities/users.entity';
 import { AddUserMiddleware } from './middlewares/add-user.middleware';
 import { ProductImagesService } from './product-images/product-images.service';
 import { TopProductsModule } from './top-products/top-products.module';
+import { WishlistModule } from './wishlist/wishlist.module';
 import * as dotenv from 'dotenv'
 dotenv.config()
 @Module({
@@ -25,7 +26,7 @@ dotenv.config()
     database: process.env.DATABASE,
     entities: ['dist/**/*.entity{.ts,.js}'],
     synchronize: false
-  }), TopProductsModule,],
+  }), TopProductsModule, WishlistModule,],
   controllers: [AppController],
   providers: [AppService],
 })
