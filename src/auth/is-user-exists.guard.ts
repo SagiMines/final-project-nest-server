@@ -1,5 +1,6 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
+import * as cryptoJS from 'crypto-js'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -18,6 +19,13 @@ export class IsUserExistGuard implements CanActivate {
   
       if (arePasswordsTheSame) {
         const session = context.switchToHttp().getRequest().session
+        let encryptedUserId
+        try {
+          encryptedUserId = cryptoJS.AES.encrypt(found.id.toString(), process.env.CRYPTO_SECRET)
+        } catch {
+          throw new HttpException('Could not encrypt the user ID', HttpStatus.CONFLICT)
+        }
+        context.switchToHttp().getResponse().cookie('user_id', encryptedUserId.toString(), {maxAge: 365*24*60*60*1000, httpOnly: false})
         session.authenticated = true;
         session.user = { ...found };
       } else return false

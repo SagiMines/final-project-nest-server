@@ -4,6 +4,7 @@ import { ProductImages } from "../../product-images/entities/product-images.enti
 import { TopProducts } from "../../top-products/entities/top-product.entity";
 import { Wishlist } from "../../wishlist/entities/wishlist.entity";
 import { OrderDetails } from "../../order-details/entities/order-detail.entity";
+import { Cart } from "../../cart/entities/cart.entity";
 
 @Entity()
 export class Products {
@@ -59,5 +60,8 @@ export class Products {
 
     @OneToOne(() => OrderDetails, orderDetails => orderDetails.products)
     orderDetails: OrderDetails
+
+    @ManyToMany(() => Cart, cart => cart.products)
+    cart: Cart[]
 
 }

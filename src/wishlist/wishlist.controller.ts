@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, HttpException, HttpCode, HttpStatus } from '@nestjs/common';
 import { Wishlist } from './entities/wishlist.entity';
 import { WishlistDto } from './wishlist-dto';
 import { WishlistService } from './wishlist.service';
@@ -9,7 +9,8 @@ export class WishlistController {
 
   @Post()
   create(@Body() list: WishlistDto): Promise<Wishlist> {
-    return this.wishlistService.addList(list)
+    this.wishlistService.addList(list)
+    throw new HttpException('Added to the database', HttpStatus.OK)
   }
 
   @Get()
