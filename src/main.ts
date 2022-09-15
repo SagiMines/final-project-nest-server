@@ -23,7 +23,8 @@ async function bootstrap() {
       secret: secret,
       resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: 8*60*60*1000, httpOnly: false }, 
+      //expires in 1 year
+      cookie: { maxAge: 365*24*60*60*1000, httpOnly: false }, 
     })
   )
   app.setGlobalPrefix('api')

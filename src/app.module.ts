@@ -15,6 +15,8 @@ import { WishlistModule } from './wishlist/wishlist.module';
 import { OrdersModule } from './orders/orders.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import * as dotenv from 'dotenv'
+import { IsUserExistMiddleware } from './middlewares/is-user-connected.middleware';
+import { CartModule } from './cart/cart.module';
 dotenv.config()
 @Module({
   imports: [ConfigModule.forRoot({
@@ -28,7 +30,7 @@ dotenv.config()
     database: process.env.DATABASE,
     entities: ['dist/**/*.entity{.ts,.js}'],
     synchronize: false
-  }), TopProductsModule, WishlistModule, OrdersModule, OrderDetailsModule,],
+  }), TopProductsModule, WishlistModule, OrdersModule, OrderDetailsModule, CartModule,],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -38,6 +40,12 @@ export class AppModule implements NestModule {
       {
         path:'/register',
         method: RequestMethod.POST
+      }
+    ),
+    consumer.apply(IsUserExistMiddleware).forRoutes(
+      {
+        path:'/login/:encryptedUserId',
+        method: RequestMethod.GET
       }
     )
   }
