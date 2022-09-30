@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { DeleteResult, UpdateResult } from 'typeorm';
 // import { AreProductsGuard } from './auth/are-products.guard';
 // import { IsProductGuard } from './auth/is-product.guard';
 import { Products } from './entities/products.entity';
@@ -28,4 +29,13 @@ export class ProductsController {
     addProduct(@Body() product: ProductDto): Promise<Products> {
         return this.productsService.addProduct(product)
     }
+
+    @Patch()
+    // assigned middleware
+    updateProductAmount(
+    @Query('product-id', ParseIntPipe) productId: number,
+    @Query('amount', ParseIntPipe) amount: number ): Promise<UpdateResult> {
+    this.productsService.updateProductAmount(productId, amount)
+    throw new HttpException('Successfully updated from the database', HttpStatus.OK)
+  }
 }

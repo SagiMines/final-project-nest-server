@@ -26,7 +26,8 @@ export class CartController {
     @Query('user-id', ParseIntPipe) userId: number,
     @Query('product-id', ParseIntPipe) productId: number,
     @Query('amount', ParseIntPipe) amount: number): Promise<UpdateResult | DeleteResult> {
-    return this.cartService.updateCartItemAmount(userId, productId, amount)
+    this.cartService.updateCartItemAmount(userId, productId, amount)
+    throw new HttpException('Deleted successfully from the database', HttpStatus.OK)
   }
 
   @Delete()
@@ -35,6 +36,7 @@ export class CartController {
     @Query('user-id', ParseIntPipe) userId: number,
     @Query('product-id', ParseIntPipe) productId: number
   ): Promise<DeleteResult> {
-    return this.cartService.deleteFromCart(userId, productId)
+    this.cartService.deleteFromCart(userId, productId)
+    throw new HttpException('Deleted successfully from the database', HttpStatus.OK)
   }
 }

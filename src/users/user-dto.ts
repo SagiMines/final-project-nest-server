@@ -19,11 +19,11 @@ export class UserDto {
     @MaxLength(100)
     address: string
 
-    @MaxLength(32)
+    @MaxLength(60)
     country: string
 
     @IsOptional()
-    @MaxLength(20)
+    @MaxLength(80)
     city: string
 
     @IsOptional()

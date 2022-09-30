@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Response } from 'express';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Products } from './entities/products.entity';
 import { ProductDto } from './product-dto';
 
@@ -24,4 +24,9 @@ export class ProductsService {
     addProduct(product: ProductDto): Promise<Products> {
         return this.productsRepo.save(product)
     }
+
+    updateProductAmount(id: number, newAmount: number): Promise<UpdateResult> {
+        return this.productsRepo.update({id}, {unitsInStock: newAmount})
+    }
+    
 }

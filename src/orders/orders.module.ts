@@ -6,6 +6,7 @@ import { Orders } from './entities/order.entity';
 import { IsUserExistMiddleware } from './middlewares/is-user-exist.middleware';
 import { UsersModule } from '../users/users.module';
 import { IsOrderExistMiddleware } from './middlewares/is-order-exist.middleware';
+import { AreOrdersExistsMiddleware } from './middlewares/are-orders-exists.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Orders]), UsersModule],
@@ -25,6 +26,12 @@ export class OrdersModule implements NestModule {
       {
         path: 'orders/:id',
         method: RequestMethod.DELETE
+      }
+    ),
+    consumer.apply(AreOrdersExistsMiddleware).forRoutes(
+      {
+        path: 'orders',
+        method: RequestMethod.GET
       }
     )
   }
