@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus } from '@nestjs/common';
 import { Orders } from './entities/order.entity';
 import { OrderDto } from './order-dto';
 import { OrdersService } from './orders.service';
@@ -9,7 +9,14 @@ export class OrdersController {
 
   @Post()
   addNewOrder(@Body() newOrder: OrderDto): Promise<Orders> {
-    return this.ordersService.addNewOrder(newOrder)
+    this.ordersService.addNewOrder(newOrder)
+    throw new HttpException('Added successfully to the database', HttpStatus.OK)
+  }
+
+  @Get()
+  // assigned middleware
+  getOrders(): Promise<Orders[]>  {
+    return this.ordersService.getOrders()
   }
   
   @Get(':id')

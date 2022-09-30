@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entities/users.entity';
+import { IsUserExistsMiddleware } from './middlewares/is-user-exists.middleware';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -10,4 +11,13 @@ import { UsersService } from './users.service';
   providers: [UsersService],
   exports: [UsersService]
 })
-export class UsersModule {}
+export class UsersModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(IsUserExistsMiddleware).forRoutes(
+      {
+        path: 'users/:id',
+        method: RequestMethod.PATCH
+      }
+    )
+  }
+}

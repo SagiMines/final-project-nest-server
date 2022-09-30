@@ -9,6 +9,10 @@ import { OrderDto } from './order-dto';
 export class OrdersService {
   constructor(@InjectRepository(Orders) private ordersRepo: Repository<Orders>) {}
   
+  getOrders(): Promise<Orders[]> {
+    return this.ordersRepo.find()
+  }
+
   addNewOrder(newOrder: OrderDto): Promise<Orders> {
     return this.ordersRepo.save(newOrder)
   }

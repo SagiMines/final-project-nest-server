@@ -11,9 +11,9 @@ export class AreListsMiddleware implements NestMiddleware {
         if( isNaN(Number(query)) || !query){
             throw new HttpException('Wrong value inserted', HttpStatus.BAD_REQUEST)
         }
-        if( !(await this.wishlistService.getListsByUserId(Number(query))).length ) {
-            throw new HttpException('No lists available for the requested user', HttpStatus.BAD_REQUEST)
-        }
+        // if( !(await this.wishlistService.getListsByUserId(Number(query))).length ) {
+        //     throw new HttpException('No lists available for the requested user', HttpStatus.BAD_REQUEST)
+        // }
         next()
     }
     

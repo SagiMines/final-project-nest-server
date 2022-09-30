@@ -25,7 +25,8 @@ export class WishlistController {
       @Query('user-id', ParseIntPipe) userId: number,
       @Query('product-id', ParseIntPipe) productId: number) 
       {
-    return this.wishlistService.removeList(userId, productId)
+    this.wishlistService.removeList(userId, productId)
+    throw new HttpException('Deleted from the database successfully', HttpStatus.OK)
   }
   
 }

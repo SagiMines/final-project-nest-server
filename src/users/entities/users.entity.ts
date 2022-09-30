@@ -26,12 +26,12 @@ export class Users {
     address: string
 
     @Column({
-        nullable: false, type: 'varchar', length: 32,
+        nullable: false, type: 'varchar', length: 60,
     })
     country: string
 
     @Column({
-        nullable: true, type: 'varchar', length: 20,
+        nullable: true, type: 'varchar', length: 80,
     })
     city: string
 

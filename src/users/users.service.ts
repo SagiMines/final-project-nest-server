@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Users } from './entities/users.entity';
 import { UserDto } from './user-dto';
 
@@ -22,6 +22,10 @@ export class UsersService {
 
     findByEmail(email: string) {
         return this.usersRepo.findOne({email})
+    }
+
+    updateUserDetails(user: UserDto, id: number): Promise<UpdateResult> {
+        return this.usersRepo.update({id}, {...user})
     }
 
 }
