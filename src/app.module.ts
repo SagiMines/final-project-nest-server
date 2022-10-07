@@ -7,9 +7,7 @@ import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductImagesModule } from './product-images/product-images.module';
-import { Users } from './users/entities/users.entity';
 import { AddUserMiddleware } from './middlewares/add-user.middleware';
-import { ProductImagesService } from './product-images/product-images.service';
 import { TopProductsModule } from './top-products/top-products.module';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { OrdersModule } from './orders/orders.module';
@@ -17,6 +15,7 @@ import { OrderDetailsModule } from './order-details/order-details.module';
 import * as dotenv from 'dotenv'
 import { IsUserExistMiddleware } from './middlewares/is-user-connected.middleware';
 import { CartModule } from './cart/cart.module';
+import { LogOutUserMiddleware } from './middlewares/log-out-user.middleware';
 dotenv.config()
 @Module({
   imports: [ConfigModule.forRoot({
@@ -46,6 +45,12 @@ export class AppModule implements NestModule {
       {
         path:'/login/:encryptedUserId',
         method: RequestMethod.GET
+      }
+    ),
+    consumer.apply(LogOutUserMiddleware).forRoutes(
+      {
+        path:'/logout',
+        method: RequestMethod.POST
       }
     )
   }
