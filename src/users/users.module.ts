@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entities/users.entity';
+import { IsPasswordCorrectMiddleware } from './middlewares/is-password-correct.middleware';
 import { IsUserExistsMiddleware } from './middlewares/is-user-exists.middleware';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
@@ -17,6 +18,12 @@ export class UsersModule implements NestModule {
       {
         path: 'users/:id',
         method: RequestMethod.PATCH
+      }
+    ),
+    consumer.apply(IsPasswordCorrectMiddleware).forRoutes(
+      {
+        path: 'users/:id',
+        method: RequestMethod.POST
       }
     )
   }
