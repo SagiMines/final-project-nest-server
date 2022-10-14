@@ -28,6 +28,9 @@ export class IsUserExistGuard implements CanActivate {
         context.switchToHttp().getResponse().cookie('user_id', encryptedUserId.toString(), {maxAge: 365*24*60*60*1000, httpOnly: false})
         session.authenticated = true;
         session.user = { ...found };
+        if(session.awaitingApproval) {
+          delete session.awaitingApproval
+        }
       } else return false
     } else return false
     return true
