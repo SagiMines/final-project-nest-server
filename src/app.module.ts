@@ -16,6 +16,7 @@ import * as dotenv from 'dotenv'
 import { IsUserExistMiddleware } from './middlewares/is-user-connected.middleware';
 import { CartModule } from './cart/cart.module';
 import { LogOutUserMiddleware } from './middlewares/log-out-user.middleware';
+import { VerifyMailMiddleware } from './middlewares/verify-mail.middleware';
 dotenv.config()
 @Module({
   imports: [ConfigModule.forRoot({
@@ -51,6 +52,12 @@ export class AppModule implements NestModule {
       {
         path:'/logout',
         method: RequestMethod.POST
+      }
+    ),
+    consumer.apply(VerifyMailMiddleware).forRoutes(
+      {
+        path:'/register',
+        method: RequestMethod.GET
       }
     )
   }

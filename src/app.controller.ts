@@ -1,6 +1,8 @@
-import { Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Query, Redirect, UseGuards } from '@nestjs/common';
 import { IsUserExistGuard } from './auth/is-user-exists.guard';
 import * as cryptoJS from 'crypto-js'
+import * as dotenv from 'dotenv'
+dotenv.config()
 @Controller()
 export class AppController {
 
@@ -10,6 +12,7 @@ export class AppController {
     throw new HttpException('OK', HttpStatus.OK)
   }
 
+  // Checks if the user that is trying to connect is already connected
   @Get('login/:encryptedUserId')
   // assigned middleware
   isUserConnected(@Param('encryptedUserId') encryptedUserId: string) {
@@ -18,6 +21,12 @@ export class AppController {
     decryptedUserId = decryptedUserId.toString(cryptoJS.enc.Utf8);
     
     return decryptedUserId
+  }
+
+  @Get('register') 
+  // assigned middleware
+  @Redirect(`${process.env.ORIGIN}/register-success`)
+  verifyMail() {
   }
 
   @Post('register')
