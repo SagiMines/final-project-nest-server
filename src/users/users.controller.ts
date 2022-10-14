@@ -18,11 +18,19 @@ export class UsersController {
         }
         return this.usersService.findByEmail(email)
     }
+
+
+    @Post(':id')
+    // assigned middleware
+    isPasswordCorrect(@Param('id', ParseIntPipe) id: number, @Body() password: string) {
+        throw new HttpException('Passwords are the same', HttpStatus.OK)
+    }
     
     @Post()
     addUser(@Body() user: UserDto) {
         this.usersService.addUser(user) 
     }
+
 
     @Get(':id')
     @UseGuards(IsUserGuard)
