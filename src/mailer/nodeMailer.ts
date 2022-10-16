@@ -12,14 +12,14 @@ const transporter = nodeMailer.createTransport({
 });
 
 const options = (req: Request, email: string, token: string, subject: string) => ({
-    from: process.env.MAILER_USER,
-    to: email,
-    subject,
-    text: `${req.protocol}://${req.get('host')}${req.url}?token=${token}`,
+  from: process.env.MAILER_USER,
+  to: email,
+  subject,
+  text: `${req.protocol}://${req.get('host')}${req.url.split('?')[0]}?token=${token}`,
 });
-  
+
 export const sendLinkViaEmail = (req: Request, email: string, token: string, subject: string) => {
-    transporter.sendMail(options(req, email, token, subject), (err, info) => {
+  transporter.sendMail(options(req, email, token, subject), (err, info) => {
       if (err) {
         console.log(err);
         return;

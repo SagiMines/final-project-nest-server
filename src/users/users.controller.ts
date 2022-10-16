@@ -1,11 +1,13 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, Redirect, Req, UseGuards } from '@nestjs/common';
 import { IsUserGuard } from './auth/is-user.guard';;
 // import { AuthUserDetailsGuard } from './auth/auth-user-details.guard';
 import { UserDto } from './user-dto';
 import { UsersService } from './users.service';
 import { Users } from './entities/users.entity';
-import { DeleteResult, UpdateResult } from 'typeorm';
-
+import { Request, Response } from 'express';
+import {  UpdateResult } from 'typeorm';
+import * as dotenv from 'dotenv'
+dotenv.config()
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
@@ -19,6 +21,28 @@ export class UsersController {
         return this.usersService.findByEmail(email)
     }
 
+
+
+    @Get('forgot-password')
+    // assigned middleware
+    @Redirect()
+    sendEmailLink(
+        @Query('email') email: string,
+        @Query('token') token: string
+    ) {
+        if(token) {
+            return {url: `${process.env.ORIGIN}/change-password-approved`}
+        }
+        throw new HttpException('A link to change your password was sent via email', HttpStatus.OK)
+    }
+
+    // Get the user details from the email provided in the session
+    @Get('forgotten-password-user')
+    // assigned middleware
+    getForgottenUser(@Req() req: Request): Promise<Users> {
+        return this.usersService.findByEmail(req['userEmail'])
+    }
+    
 
     @Post(':id')
     // assigned middleware
