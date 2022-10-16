@@ -17,6 +17,9 @@ export class IsUserExistsMiddleware implements NestMiddleware {
                     const hashedUserNewPassword = await bcrypt.hash(user.password, salt);
                     req.body.password = hashedUserNewPassword
                 }
+                if(req.session['forgotPasswordEmail']) {
+                    delete req.session['forgotPasswordEmail']
+                }
                 next()
             } else throw new HttpException('No user with the provided id was found', HttpStatus.BAD_REQUEST)
         } else throw new HttpException('The id parameter must contain only numeric values', HttpStatus.BAD_REQUEST)
