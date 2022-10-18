@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Response } from 'express';
 import { Repository, UpdateResult } from 'typeorm';
 import { Products } from './entities/products.entity';
 import { ProductDto } from './product-dto';
@@ -27,6 +26,31 @@ export class ProductsService {
 
     updateProductAmount(id: number, newAmount: number): Promise<UpdateResult> {
         return this.productsRepo.update({id}, {unitsInStock: newAmount})
+    }
+
+    getProductsSortedByPriceASC(categoryId: number): Promise<Products[]> {
+        return this.productsRepo.find(
+            {
+                where:{categoryId},
+                order:{unitPrice: 'ASC'}
+        })
+    }
+
+    getProductsSortedByPriceDESC(categoryId: number): Promise<Products[]> {
+        return this.productsRepo.find(
+            {
+                where:{categoryId},
+                order:{unitPrice: 'DESC'}
+        })
+    }
+
+    getNewestProducts(categoryId: number): Promise<Products[]> {
+        return this.productsRepo.find(
+            {
+                where:{categoryId},
+                order:{publishDate: 'DESC'}
+            }
+        )
     }
     
 }

@@ -10,7 +10,8 @@ import { AddCategoryMiddleware } from './middlewares/add-category.middleware';
 @Module({
   imports: [TypeOrmModule.forFeature([Categories])],
   providers: [CategoriesService],
-  controllers: [CategoriesController]
+  controllers: [CategoriesController],
+  exports: [CategoriesService]
 })
 export class CategoriesModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
