@@ -1,6 +1,6 @@
 import { Orders } from "../../orders/entities/order.entity"
 import { Products } from "../../products/entities/products.entity"
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm"
 
 @Entity()
 export class OrderDetails {
@@ -24,7 +24,7 @@ export class OrderDetails {
     @JoinColumn({name: 'order_id'})
     orders: Orders
 
-    @OneToOne(() => Products, products => products.orderDetails)
+    @ManyToOne(() => Products, products => products.orderDetails)
     @JoinColumn({name: 'product_id'})
     products: Products
 }

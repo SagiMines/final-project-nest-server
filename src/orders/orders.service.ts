@@ -28,6 +28,10 @@ export class OrdersService {
   removeOrderById(id: number) {
     return this.ordersRepo.delete({id})
   }
+
+  getJoinedOrdersAndOrderDetails(id: number) {
+    return this.ordersRepo.findOne({where: {id}, relations: ['orderDetails']})
+  }
   
   
   // create(createOrderDto: CreateOrderDto) {

@@ -30,7 +30,7 @@ export class Orders {
     @JoinColumn({name: 'user_id'})
     users: Users
 
-    @OneToOne(() => OrderDetails, orderDetails => orderDetails.orders)
-    orderDetails: OrderDetails
+    @OneToMany(() => OrderDetails, orderDetails => orderDetails.orders)
+    orderDetails: OrderDetails[]
 
 }
