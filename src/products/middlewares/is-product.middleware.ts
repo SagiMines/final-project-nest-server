@@ -10,7 +10,8 @@ export class IsProductMiddleware implements NestMiddleware {
         if(req.query['category-id']) {
             next()
             // Other routes
-        } else {
+        }
+        else {
             const id = Number(req.params.id)
             if(!(await this.productsService.getProduct(id))){
                 throw new HttpException('No such product', HttpStatus.BAD_REQUEST)

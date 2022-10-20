@@ -52,5 +52,9 @@ export class ProductsService {
             }
         )
     }
+
+    getJoinedProductsAndProductImages(id: number): Promise<Products>  {
+        return this.productsRepo.findOne({where: {id}, relations: ['productImages']})
+    }
     
 }

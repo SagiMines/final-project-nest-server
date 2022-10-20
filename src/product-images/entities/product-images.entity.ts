@@ -13,7 +13,7 @@ export class ProductImages {
     @Column({name: 'image_src', nullable: true, type: 'varchar', length: 1000})
     imageSrc: string
 
-    @ManyToOne(() => Products, product => product.image, {onDelete: 'CASCADE',nullable: false})
+    @ManyToOne(() => Products, product => product.productImages, {onDelete: 'CASCADE',nullable: false})
     @JoinColumn({name: 'product_id'})
     product: Products
 }

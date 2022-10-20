@@ -49,8 +49,8 @@ export class Products {
     @JoinColumn({name: 'category_id' })
     category: Categories
 
-    @OneToMany(() => ProductImages, image => image.product)
-    image: ProductImages[]
+    @OneToMany(() => ProductImages, productImages => productImages.product)
+    productImages: ProductImages[]
 
     @OneToOne(() => TopProducts, topProducts => topProducts.products)
     topProducts: TopProducts

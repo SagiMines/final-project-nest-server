@@ -37,7 +37,10 @@ export class ProductsController {
     
     @Get(':id')
     // assigned middleware
-    getProduct(@Param('id', ParseIntPipe) id: number): Promise<Products>{
+    getProduct(@Param('id', ParseIntPipe) id: number, @Query('join') join: boolean): Promise<Products>{
+        if(join) {
+            return this.productsService.getJoinedProductsAndProductImages(id)
+        }
         return this.productsService.getProduct(id)
     }
     

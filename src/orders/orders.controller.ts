@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus } from '@nestjs/common';
+import { Query, Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, ParseBoolPipe } from '@nestjs/common';
+// import { Query } from 'typeorm/driver/Query';
 import { Orders } from './entities/order.entity';
 import { OrderDto } from './order-dto';
 import { OrdersService } from './orders.service';
@@ -21,7 +22,10 @@ export class OrdersController {
   
   @Get(':id')
   // assigned middleware
-  getOrdersByUserId(@Param('id', ParseIntPipe) id: number): Promise<Orders[]>  {
+  getOrdersByUserId(@Param('id', ParseIntPipe) id: number, @Query('join') join: boolean): Promise<Orders[] | Orders>  {
+    if(join) {
+      return this.ordersService.getJoinedOrdersAndOrderDetails(id)
+    }
     return this.ordersService.getOrdersByUserId(id)
   }
   
