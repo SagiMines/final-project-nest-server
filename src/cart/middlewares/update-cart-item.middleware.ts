@@ -7,7 +7,8 @@ export class UpdateCartItemMiddleware implements NestMiddleware {
     constructor(private readonly cartService: CartService){}
     async use(req: Request, res: Response, next: NextFunction) {
         
-        let {['user-id']: userId, ['product-id']: productId, amount} = req.query
+        let {userId, productId, amount, checked} = req.body
+        // let {['user-id']: userId, ['product-id']: productId, amount} = req.query
         if(userId && productId && amount) {
             if(!isNaN(Number(userId)) && !isNaN(Number(productId)) && !isNaN(Number(amount)) ) {
                 if(await this.cartService.getCartByUserAndProductIds(Number(userId), Number(productId))) {
