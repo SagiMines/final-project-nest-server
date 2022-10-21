@@ -13,6 +13,9 @@ export class Cart {
     @Column({type: 'tinyint', nullable: false})
     amount: number
 
+    @Column({type: 'tinyint', nullable: false})
+    checked: boolean
+
     @ManyToOne(() => Users, users => users.cart)
     @JoinColumn({name: 'user_id'})
     users: Users

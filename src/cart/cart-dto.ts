@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, Max, Min } from "class-validator";
+import { IsBoolean, IsInt, IsNotEmpty, Max, Min } from "class-validator";
 
 export class CartDto {
     @IsInt()
@@ -8,6 +8,10 @@ export class CartDto {
     @IsInt()
     @IsNotEmpty()
     productId: number
+
+    @IsBoolean()
+    @IsNotEmpty()
+    checked: boolean
 
     @IsInt()
     @Max(255)

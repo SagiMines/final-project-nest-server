@@ -21,11 +21,11 @@ export class CartService {
     return this.cartRepo.delete({userId, productId})
   }
 
-  updateCartItemAmount(userId: number, productId: number, amount: number): Promise<UpdateResult | DeleteResult> {
-    if(amount === 0) {
-      return this.deleteFromCart(userId, productId)
+  updateCartItemAmount(cart: CartDto): Promise<UpdateResult | DeleteResult> {
+    if(cart.amount === 0) {
+      return this.deleteFromCart(cart.userId, cart.productId)
     }
-    return this.cartRepo.update({userId, productId}, {amount})
+    return this.cartRepo.update({userId: cart.userId, productId: cart.productId}, {amount: cart.amount, checked: cart.checked})
   }
 
   getCartByUserAndProductIds(userId: number, productId: number): Promise<Cart> {

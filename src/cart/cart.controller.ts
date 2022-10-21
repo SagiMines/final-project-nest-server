@@ -22,12 +22,9 @@ export class CartController {
 
   @Patch()
   // assigned middleware
-  updateCartItem(
-    @Query('user-id', ParseIntPipe) userId: number,
-    @Query('product-id', ParseIntPipe) productId: number,
-    @Query('amount', ParseIntPipe) amount: number): Promise<UpdateResult | DeleteResult> {
-    this.cartService.updateCartItemAmount(userId, productId, amount)
-    throw new HttpException('Deleted successfully from the database', HttpStatus.OK)
+  updateCartItem(@Body() updatedCartItem: CartDto): Promise<UpdateResult | DeleteResult> {
+    this.cartService.updateCartItemAmount(updatedCartItem)
+    throw new HttpException('Successfully updated the database', HttpStatus.OK)
   }
 
   @Delete()
