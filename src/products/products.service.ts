@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Like, Repository, UpdateResult } from 'typeorm';
 import { Products } from './entities/products.entity';
 import { ProductDto } from './product-dto';
 
@@ -42,6 +42,15 @@ export class ProductsService {
                 where:{categoryId},
                 order:{unitPrice: 'DESC'}
         })
+    }
+
+    getSearchValues(value: string): Promise<Products[]> {
+        return this.productsRepo.find(
+            {
+                where:{productName: Like(`%${value}%`)},
+                relations: ['productImages']
+            }
+        )
     }
 
     getNewestProducts(categoryId: number): Promise<Products[]> {

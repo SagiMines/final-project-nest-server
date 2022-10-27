@@ -34,6 +34,13 @@ export class ProductsController {
     getNewestProducts(@Query('category-id') categoryId: number): Promise<Products[]>{
         return this.productsService.getNewestProducts(categoryId)
     }
+
+    @Get('search')
+    // assigned middleware
+    getSearchResult(@Query('value') value: string): Promise<Products[]>{
+        return this.productsService.getSearchValues(value)
+    }
+
     
     @Get(':id')
     // assigned middleware
