@@ -7,10 +7,11 @@ export class IsProductMiddleware implements NestMiddleware {
     constructor(private readonly productsService: ProductsService){}
     async use(req: Request, res: Response, next: NextFunction) {
         // If we are at the sorting route
-        if(req.query['category-id']) {
+        if(req.query['category-id'] || req.query['value']) {
             next()
             // Other routes
         }
+
         else {
             const id = Number(req.params.id)
             if(!(await this.productsService.getProduct(id))){
