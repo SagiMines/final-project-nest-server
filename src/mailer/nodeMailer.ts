@@ -11,15 +11,15 @@ const transporter = nodeMailer.createTransport({
   },
 });
 
-const options = (req: Request, email: string, token: string, subject: string) => ({
+const options = (req: Request, email: string, token: string, subject: string, text?: string) => ({
   from: process.env.MAILER_USER,
   to: email,
   subject,
-  text: `${req.protocol}://${req.get('host')}${req.url.split('?')[0]}?token=${token}`,
+  text: text ? text : `${req.protocol}://${req.get('host')}${req.url.split('?')[0]}?token=${token}`,
 });
 
-export const sendLinkViaEmail = (req: Request, email: string, token: string, subject: string) => {
-  transporter.sendMail(options(req, email, token, subject), (err, info) => {
+export const sendLinkViaEmail = (req: Request, email: string, token: string, subject: string, text?: string) => {
+  transporter.sendMail(options(req, email, token, subject, text), (err, info) => {
       if (err) {
         console.log(err);
         return;
