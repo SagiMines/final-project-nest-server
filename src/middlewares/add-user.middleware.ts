@@ -13,22 +13,49 @@ export class AddUserMiddleware implements NestMiddleware {
             throw new HttpException('Email already in use', HttpStatus.BAD_REQUEST)
         }
         const salt = await bcrypt.genSalt();
+        const guestPasswordToMail = req.body.password
         const hashedUserPassword = await bcrypt.hash(req.body.password, salt);
         req.body.password = hashedUserPassword;
         // this.usersService.addUser(req.body)
         const session = req.session
-
-        session['awaitingApproval'] = {...req.body}
-
         let encryptedUserEmail: string
-        try {
-            encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
-            sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your verification link to WorkShop!')
-        } catch {
-          throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
+        if(req.query.guest) {
+            try {
+                encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
+                sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your newly created user at WorkShop!', `Your password to Workshop is: ${guestPasswordToMail}`)
+                await this.usersService.addUser(req.body)
+            } catch {
+              throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
+            }
+               
+                // const addedUser = await this.usersService.findByEmail(req.body.email)
+                // let encryptedUserId: string
+                // try {
+                //     encryptedUserId = (cryptoJS.AES.encrypt(addedUser['id'].toString(), process.env.CRYPTO_SECRET)).toString()
+                // } catch {
+                //     throw new HttpException('Could not encrypt the user ID', HttpStatus.CONFLICT)
+                // }
+                
+                // res.cookie('user_id', encryptedUserId, {maxAge: 365*24*60*60*1000, httpOnly: false})
+                // const session = req.session
+                // session['authenticated'] = true;
+                // session['user'] = { ...addedUser };
+                // delete req.session['awaitingApproval']
+                next()
+        } else {
+
+            session['awaitingApproval'] = {...req.body}
+    
+            try {
+                encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
+                sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your verification link to WorkShop!')
+            } catch {
+              throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
+            }
+    
+            next()
         }
 
-        next()
     }
     
 }
