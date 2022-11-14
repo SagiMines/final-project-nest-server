@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+<style type="text/css">
+
+    body {
+        margin: 0;
+    }
+    table {
+        border-spacing: 0;
+    }
+    td {
+        padding: 0;
+    }
+    img {
+        border: 0;
+    }
+
+    .wrapper {
+        width: 100%;
+        table-layout: fixed;
+        padding-bottom: 60px;
+        
+    }
+    .main {
+        background-color: #eeeeee;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 600px;
+        border-spacing: 0;
+        font-family: sans-serif;
+        color: #171a1b;
+    }
+
+    .logo-banner {
+        background-color:#8dbfc8 ;
+    }
+
+    .logo-column {
+        text-align: center;
+        font-size: 0;
+    }
+    .logo-column .column {
+        width: 100%;
+        max-width: 300px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .logo {
+        width: 70px;
+    }
+
+    .order-data-container {
+        background-color: #eeeeee;
+    }
+
+    .order-data-title {
+        font-size: 22px;
+        letter-spacing: 0.6px;
+    }
+
+    .order-data {
+        font-size: 15px;
+    letter-spacing: 0.6px;
+    }
+
+    .product-link {
+        color:#2d2d2d !important;
+        font-size:14px;
+        line-height:20px;
+        letter-spacing:0.6px;
+        text-decoration:none;
+    }
+    .discount {
+        font-weight:700;
+        font-size:14px;
+        line-height:20px;
+        letter-spacing:0.6px;
+        color:#d01345;
+        text-decoration:none
+    }
+
+    .before-discount {
+        font-weight:400;
+        font-size:14px;
+        line-height:20px;
+        letter-spacing:0.6px;
+        color:#2d2d2d;
+        text-decoration:line-through
+    }
+    .regular-price {
+        font-weight:700;
+        font-size:14px;
+        line-height:20px;
+        letter-spacing:0.6px;
+    }
+
+    .quantity {
+        color:#2d2d2d;
+        font-size:12px;
+        line-height:18px;
+        letter-spacing:0.6px
+    }
+   .order-title {
+    color:#767676;
+    font-size:12px;
+    line-height:20px;
+    letter-spacing:0.6px;
+    font-weight:700
+   }
+   .order-price {
+    color:#2d2d2d;
+    font-size:12px;
+    line-height:20px;
+    letter-spacing:0.6px
+   }
+   .price-total {
+    color:#2d2d2d;
+    font-size:12px;
+    line-height:20px;
+    letter-spacing:0.6px;
+    font-weight:700
+   }
+
+   .gratitude {
+    color:#2d2d2d;
+    font-size:12px;
+    line-height:20px;
+    letter-spacing:0.6px;
+   }
+
+
+
+</style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- To make sure Gmail doesn't trim the content -->
+    <span style="opacity: 0"> {{ randomness }} </span>
+    <center class="wrapper">
+        <table class="main" width="100%">
+            <!-- LOGO SECTION -->
+
+            <tr class="logo-banner">
+                <td style="padding: 10px 0 4px;">
+                    <table width="100%">
+                        <tr>
+                            <td class="logo-column">
+                                <table class="column">
+                                    <tr>
+                                        <td style="padding: 0 115px 10px;">
+                                            <a href="http://localhost:3000/"><img class="logo" src="cid:workshop-logo" alt="WorkShop logo" width="180" title="WorkShop logo"></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- ORDER DATA -->
+
+            <table  width="100%" class="order-data-container">
+                <tr>
+                    <td height="12" style="background-color: #eeeeee;"></td>
+                </tr>
+                <tr>
+                    <td class="order-data-title" align="center" style="font-weight:bold;">It's Ordered!</td>
+                </tr>
+                <tr>
+                    <td height="10" style="background-color: #eeeeee;"></td>
+                </tr>
+                <tr>
+                    <td class="order-data" align="center">Hi {{user.firstName}}, your order has been received.</td>
+                </tr>
+                <tr>
+                    <td height="12" style="background-color: #eeeeee;"></td>
+                </tr>
+                <tr>
+                    <td class="order-data" align="center">Order Number: #{{orderId}}</td>
+                </tr>
+                <tr>
+                    <td class="order-data" align="center">Order Date: {{orderDate}}</td>
+                </tr>
+                <tr>
+                    <td height="12" style="background-color: #eeeeee;"></td>
+                </tr>
+            </table>
+
+            <!-- DELIVERY DETAILS SECTION -->
+            <table align="center" class="delivery-details-container">
+                <tr>
+                    <td align="center" width="100%" style="max-width: 600px;">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#ffffff">
+                            <tr>
+                                <td width="20" style="background-color: #eeeeee;">&nbsp;</td>
+                                <td width="20">&nbsp;</td>
+                                <td width="520">
+                                    <table width="100%" cellspacing="0" border="0" align="center">
+                                        <tr>
+                                            <td height="24"></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-weight:700;font-size:14px;line-height:20px;letter-spacing:0.6px">
+                                                <font>Delivery Details</font>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="12"></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="border-top:solid #d0d0d0 1px;font-size:1px"></td>
+                                        </tr>
+                                        <tr>
+                                            <td height="24">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-size:14px;line-height:20px;letter-spacing:0.6px">
+                                                {{user.firstName}} {{user.lastName}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-size:14px;line-height:20px;letter-spacing:0.6px">
+                                                {{user.address}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-size:14px;line-height:20px;letter-spacing:0.6px">
+                                                {{user.postalCode}}, {{user.city}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-size:14px;line-height:20px;letter-spacing:0.6px">
+                                                {{user.country}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-size:14px;line-height:20px;letter-spacing:0.6px">
+                                                {{user.phone}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="24">
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                
+                                </td>
+                               <td width="20">&nbsp;</td>
+                               <td width="20" style="background-color: #eeeeee;">&nbsp;</td>
+                            </tr>
+                        </table>
+                                    <!-- ORDER PRODUCTS SECTION -->
+                            <tr>
+                                <td height="24" style="background-color: #eeeeee;"></td>
+                            </tr>
+                    
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#ffffff">
+                            <tr>
+                                <td width="20" style="background-color: #eeeeee;">&nbsp;</td>
+                                <td width="20">&nbsp;</td>
+                                <td width="520">
+                                    <table width="100%" cellspacing="0" border="0" align="center">
+                                        <tr>
+                                            <td height="24"></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-weight:700;font-size:14px;line-height:20px;letter-spacing:0.6px">
+                                                <font>Your Order</font>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="12"></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="border-top:solid #d0d0d0 1px;font-size:1px"></td>
+                                        </tr>
+                                        <tr>
+                                            <td height="24">
+                                            </td>
+                                        </tr>
+
+                                        <!-- PRODUCTS -->
+                                        {{#each cartProducts}}
+                                        <tr>
+                                            <td>
+                                                <table cellpadding="0" cellspacing="0" border="0" style="max-width: 520px;" >
+                                                    <tr>
+                                                        <td width="100" valign="top" style="max-width: 100px;">
+                                                            <a href="http://localhost:3000/product/{{this.id}}">
+                                                            <img src={{this.image}} alt={{this.productName}} width="100" style="max-width: 100px;" border="0" style="display: block;">
+                                                            </a>
+                                                        </td>
+                                            <td width="20">&nbsp;</td>
+                                            <td width="400" style="max-width: 400px;" valign="top">
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                    <tr>
+                                                        <td valign="top">
+                                                            <a class="product-link" href="http://localhost:3000/product/{{this.id}}">
+                                                            <font>{{this.productName}}</font>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="8"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        
+                                                        <td valign="top">
+                                                        {{#if this.discount}}
+                                                        <span><font class="discount">${{this.finalPrice}}</font> <font class="before-discount">${{this.priceWithoutDiscount}}</font></span>
+                                                        {{else}}
+                                                        <span><font class="regular-price">${{this.priceWithoutDiscount}}</font></span>
+                                                        {{/if}}
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="8"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="quantity" align="left"><font>Qty: {{this.amount}}</font></td>
+                                                    </tr>
+                                                </table>
+        
+                                            </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td height="12"></td>
+                                        </tr>
+                                        {{/each}}
+                                        <tr>
+                                            <td height="12"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top:solid #d0d0d0 1px;font-size:1px;line-height:1px" width="100%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td height="12"></td>
+                                        </tr>
+                                         {{#if saving}}
+                                        <tr>
+                                            <td>
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                   
+                                                    <tr>
+                                                        <td width="65%" class="order-title">
+                                                            <font>Sub-total</font>
+                                                        </td>
+                                                        <td width="35%" align="right" class="order-price">
+                                                            <font>${{cartTotalWithoutDiscount}}</font>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="6"></td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td width="65%" class="order-title">
+                                                            <font>Discount</font>
+                                                        </td>
+                                                        <td width="35%" align="right" class="order-price">
+                                                            <font>-${{saving}}</font>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12"></td>
+                                                    </tr>
+                                                    
+                                                    
+                                    
+                                                </table>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top:solid #d0d0d0 1px;font-size:1px;line-height:1px" width="100%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td height="12"></td>
+                                        </tr>
+                                        {{/if}}
+                                        <tr>
+                                            <td>
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                    <tr>
+                                                        <td width="65%" class="price-total">
+                                                            <font>Total</font>
+                                                        </td>
+            
+                                                        <td width="35%" align="right" class="price-total">
+                                                            <font>${{cartTotalWithDiscount}}</font>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="24"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="20">&nbsp;</td>
+                                <td width="20" style="background-color: #eeeeee;">&nbsp;</td>
+                            </tr>
+                        </table> 
+                    </td>
+                </tr>
+                <tr>
+                    <td height="24" style="background-color: #eeeeee;"></td>
+                </tr>
+
+                <tr>
+                    <td class="gratitude" align="center">
+                        <font>Thanks,</font>
+                        </td>
+                </tr>
+                <tr>
+                    <td class="gratitude" align="center"><font  style="font-weight: 700;">The WorkShop Team</font></td>
+                </tr>
+            </table>
+            <tr>
+                    <td height="24" style="background-color: #eeeeee;"></td>
+                </tr>
+            
+            
+
+        </table>
+    </center>
+    <!-- To make sure Gmail doesn't trim the content -->
+    <span style="opacity: 0"> {{ randomness }} </span>
+</body>
+</html>

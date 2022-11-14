@@ -1,9 +1,9 @@
-import { Query, Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, ParseBoolPipe } from '@nestjs/common';
+import { Query, Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, ParseBoolPipe, Req } from '@nestjs/common';
 // import { Query } from 'typeorm/driver/Query';
 import { Orders } from './entities/order.entity';
 import { OrderDto } from './order-dto';
 import { OrdersService } from './orders.service';
-
+import { Request } from 'express';
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
@@ -22,8 +22,8 @@ export class OrdersController {
   
   @Get(':id')
   // assigned middleware
-  getOrdersByUserId(@Param('id', ParseIntPipe) id: number, @Query('join') join: boolean): Promise<Orders[] | Orders>  {
-    if(join) {
+  getOrdersByUserId(@Param('id', ParseIntPipe) id: number, @Query('join') join: boolean, @Req() req: Request): Promise<Orders[] | Orders>  {
+    if(join && !req.body.empty) {
       return this.ordersService.getJoinedOrdersAndOrderDetails(id)
     }
     return this.ordersService.getOrdersByUserId(id)

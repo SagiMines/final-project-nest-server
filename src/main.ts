@@ -3,10 +3,11 @@ import { AppModule } from './app.module';
 import * as session from 'express-session';
 import * as dotenv from 'dotenv'
 import { ConfigService } from '@nestjs/config';
+import { NestExpressApplication } from '@nestjs/platform-express';
 dotenv.config()
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService)
   const port = configService.get('PORT')
   const secret = configService.get('SECRET')
@@ -26,7 +27,7 @@ async function bootstrap() {
       //expires in 1 year
       cookie: { maxAge: 365*24*60*60*1000, httpOnly: false }, 
     })
-  )
+  ) 
   app.setGlobalPrefix('api')
   await app.listen(port);
 }
