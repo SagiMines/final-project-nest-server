@@ -17,9 +17,12 @@ import { IsUserExistMiddleware } from './middlewares/is-user-connected.middlewar
 import { CartModule } from './cart/cart.module';
 import { LogOutUserMiddleware } from './middlewares/log-out-user.middleware';
 import { VerifyMailMiddleware } from './middlewares/verify-mail.middleware';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 dotenv.config()
 @Module({
-  imports: [ConfigModule.forRoot({
+  imports: [
+     ConfigModule.forRoot({
     isGlobal: true
   }), ProductsModule, UsersModule, CategoriesModule, ProductImagesModule, TypeOrmModule.forRoot({
     type: 'mysql',

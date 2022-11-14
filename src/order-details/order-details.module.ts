@@ -5,9 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderDetails } from './entities/order-detail.entity';
 import { OrdersModule } from '../orders/orders.module';
 import { IsOrderExistMiddleware } from './middlewares/is-order-exist.middleware';
+import { SendOrderConfirmationViaEmailMiddleware } from './middlewares/send-order-confirmation-via-email.middleware';
+import { UsersModule } from './../users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OrderDetails]), OrdersModule],
+  imports: [TypeOrmModule.forFeature([OrderDetails]), OrdersModule, UsersModule],
   controllers: [OrderDetailsController],
   providers: [OrderDetailsService]
 })
@@ -17,6 +19,12 @@ export class OrderDetailsModule implements NestModule {
       {
         path: 'order-details/:id',
         method: RequestMethod.GET
+      }
+    ),
+    consumer.apply(SendOrderConfirmationViaEmailMiddleware).forRoutes(
+      {
+        path: 'order-details/order-confirmation',
+        method: RequestMethod.POST
       }
     )
   }

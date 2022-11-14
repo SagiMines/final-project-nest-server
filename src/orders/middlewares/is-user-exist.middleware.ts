@@ -23,12 +23,15 @@ export class IsUserExistMiddleware implements NestMiddleware {
             //if the param is numeric
             if(!isNaN(id)) {
                 //if there are orders for the user id provided in the param
-                if((await this.ordersService.getOrdersByUserId(id)).length) {
+                if((await this.ordersService.getOrdersByUserId(id))) {
+                    if(!(await this.ordersService.getOrdersByUserId(id)).length) {
+                        req.body.empty = true
+                    }
                     next()
                     //if there isn't a user with the id provided in the param
                 } else if(!(await this.usersService.findById(id))){
                     throw new HttpException('No such user exist', HttpStatus.BAD_REQUEST)
-                } else  throw new HttpException('No orders available for the requested user', HttpStatus.BAD_REQUEST)
+                }
             } else throw new HttpException('Wrong input: only numeric values can be entered', HttpStatus.BAD_REQUEST)
         }
     }
