@@ -8,6 +8,7 @@ dotenv.config()
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.set('trust proxy', 1)
   const configService = app.get(ConfigService)
   const port = configService.get('PORT')
   const secret = configService.get('SECRET')
@@ -19,7 +20,7 @@ async function bootstrap() {
     "optionsSuccessStatus": 204,
     "credentials": true
   });
-  app.set('trust proxy', 1)
+  
   app.use(
     session({
       secret: 'JDSAJDIAJmdimjijm23424rofos!@!Ddcd',
