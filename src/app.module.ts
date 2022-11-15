@@ -26,11 +26,11 @@ dotenv.config()
     isGlobal: true
   }), ProductsModule, UsersModule, CategoriesModule, ProductImagesModule, TypeOrmModule.forRoot({
     type: 'mysql',
-    host: process.env.HOST,
+    host: process.env.DEP_HOST,
     port: 3306,
-    username: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
+    username: process.env.DEP_USER,
+    password: process.env.DEP_PASSWORD,
+    database: process.env.DEP_DATABASE,
     entities: ['dist/**/*.entity{.ts,.js}'],
     synchronize: false
   }), TopProductsModule, WishlistModule, OrdersModule, OrderDetailsModule, CartModule,],
