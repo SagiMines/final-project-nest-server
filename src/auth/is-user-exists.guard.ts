@@ -2,6 +2,8 @@ import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } 
 import { UsersService } from '../users/users.service';
 import * as cryptoJS from 'crypto-js'
 import * as bcrypt from 'bcrypt'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 @Injectable()
 export class IsUserExistGuard implements CanActivate {
