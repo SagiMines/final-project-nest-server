@@ -2,8 +2,6 @@ import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } 
 import { UsersService } from '../users/users.service';
 import * as cryptoJS from 'crypto-js'
 import * as bcrypt from 'bcrypt'
-import * as dotenv from 'dotenv'
-dotenv.config()
 
 @Injectable()
 export class IsUserExistGuard implements CanActivate {
@@ -23,7 +21,7 @@ export class IsUserExistGuard implements CanActivate {
         const session = context.switchToHttp().getRequest().session
         let encryptedUserId
         try {
-          encryptedUserId = cryptoJS.AES.encrypt(found.id.toString(), process.env.CRYPTO_SECRET)
+          encryptedUserId = cryptoJS.AES.encrypt(found.id.toString(), 'dd##$FD34tg!!!2')
         } catch {
           throw new HttpException('Could not encrypt the user ID', HttpStatus.CONFLICT)
         }

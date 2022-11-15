@@ -31,7 +31,7 @@ export class UsersController {
         @Query('token') token: string
     ) {
         if(token) {
-            return {url: `${process.env.ORIGIN}/change-password-approved`}
+            return {url: `https://workshop-il.netlify.app/change-password-approved`}
         }
         throw new HttpException('A link to change your password was sent via email', HttpStatus.OK)
     }

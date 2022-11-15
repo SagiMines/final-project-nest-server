@@ -20,7 +20,7 @@ export class AddUserMiddleware implements NestMiddleware {
         let encryptedUserEmail: string
         if(req.query.guest) {
             try {
-                encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
+                encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, 'dd##$FD34tg!!!2')).toString()
                 sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your newly created user at WorkShop!',`We've raised the glove and created an account for you!\nYour login details:\nusername: ${req.body.email}\npassword: ${guestPasswordToMail}\nSee you there!`)
                 await this.usersService.addUser(req.body)
             } catch {
@@ -32,7 +32,7 @@ export class AddUserMiddleware implements NestMiddleware {
             session['awaitingApproval'] = {...req.body}
     
             try {
-                encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
+                encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, 'dd##$FD34tg!!!2')).toString()
                 sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your verification link to WorkShop!')
             } catch {
               throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
