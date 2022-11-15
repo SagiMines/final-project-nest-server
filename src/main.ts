@@ -26,7 +26,7 @@ async function bootstrap() {
       secret: 'JDSAJDIAJmdimjijm23424rofos!@!Ddcd',
       resave: false,
       saveUninitialized: false,
-      proxy: true,
+      proxy: undefined,
       //expires in 1 year
       cookie: { secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none' }, 
     })
