@@ -28,7 +28,7 @@ async function bootstrap() {
       saveUninitialized: false,
       proxy: undefined,
       //expires in 1 year
-      cookie: { secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none' }, 
+      cookie: { secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: false}, 
     })
   ) 
   app.setGlobalPrefix('api')
