@@ -21,7 +21,7 @@ async function bootstrap() {
   });
   app.use(
     session({
-      secret: secret,
+      secret: 'JDSAJDIAJmdimjijm23424rofos!@!Ddcd',
       resave: false,
       saveUninitialized: false,
       //expires in 1 year
