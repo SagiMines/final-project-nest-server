@@ -13,7 +13,7 @@ async function bootstrap() {
   const secret = configService.get('SECRET')
   const origin = configService.get('ORIGIN')
   app.enableCors({
-    "origin": origin,
+    "origin": 'https://workshop-il.netlify.app',
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
