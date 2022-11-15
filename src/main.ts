@@ -19,7 +19,7 @@ async function bootstrap() {
     "optionsSuccessStatus": 204,
     "credentials": true
   });
-  app.enable('trust proxy', 1)
+  app.set('trust proxy', 1)
   app.use(
     session({
       secret: 'JDSAJDIAJmdimjijm23424rofos!@!Ddcd',
