@@ -19,7 +19,8 @@ async function bootstrap() {
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
     "credentials": true,
-    "allowedHeaders": 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+    "allowedHeaders": 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept',
+
   });
   
   app.use(
@@ -28,7 +29,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       //expires in 1 year
-      cookie: { path: '/', domain: 'workshop-il.netlify.app', secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'}, 
+      cookie: { path: '/', domain: '.workshop-il.netlify.app', secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'}, 
     })
   )
   app.setGlobalPrefix('api')
