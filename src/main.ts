@@ -18,7 +18,8 @@ async function bootstrap() {
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
-    "credentials": true
+    "credentials": true,
+    "allowedHeaders": 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
   });
   
   app.use(
@@ -29,7 +30,7 @@ async function bootstrap() {
       //expires in 1 year
       cookie: { domain: 'workshop-il.netlify.app', secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'}, 
     })
-  ) 
+  )
   app.setGlobalPrefix('api')
   
   await app.listen(process.env.PORT || port);
