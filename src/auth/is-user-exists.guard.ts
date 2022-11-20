@@ -25,7 +25,7 @@ export class IsUserExistGuard implements CanActivate {
         } catch {
           throw new HttpException('Could not encrypt the user ID', HttpStatus.CONFLICT)
         }
-        context.switchToHttp().getResponse().cookie('user_id', encryptedUserId.toString(), {domain: 'workshop-il.netlify.app' ,secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'})
+        context.switchToHttp().getResponse().cookie('user_id', encryptedUserId.toString(), {path: '/', domain: 'workshop-il.netlify.app' ,secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'})
         session.authenticated = true;
         session.user = { ...found };
         if(session.awaitingApproval) {
