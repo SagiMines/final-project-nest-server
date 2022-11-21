@@ -14,7 +14,7 @@ async function bootstrap() {
   const secret = configService.get('SECRET')
   const origin = configService.get('ORIGIN')
   app.enableCors({
-    "origin": 'https://workshop-il.herokuapp.com',
+    "origin": 'https://www.workshop-il.com',
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
@@ -30,7 +30,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       //expires in 1 year
-      cookie: {domain: '.herokuapp.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'}, 
+      cookie: {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'}, 
     })
   )
   app.setGlobalPrefix('api')
