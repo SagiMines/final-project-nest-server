@@ -14,7 +14,7 @@ async function bootstrap() {
   const secret = configService.get('SECRET')
   const origin = configService.get('ORIGIN')
   app.enableCors({
-    "origin": 'https://workshop-il.netlify.app',
+    "origin": 'https://workshop-il.herokuapp.com/',
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
@@ -22,6 +22,7 @@ async function bootstrap() {
     "allowedHeaders": 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept',
 
   });
+  // 'https://workshop-il.netlify.app'
   app.set('trust proxy', 1)
   app.use(
     session({
