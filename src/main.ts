@@ -14,7 +14,7 @@ async function bootstrap() {
   const secret = configService.get('SECRET')
   const origin = configService.get('ORIGIN')
   app.enableCors({
-    "origin": 'https://workshop-il.herokuapp.com/',
+    "origin": 'https://workshop-il.herokuapp.com',
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
