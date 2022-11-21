@@ -307,11 +307,14 @@
                                                         <td width="100" valign="top" style="max-width: 100px;">
                                                             {{#if prod}}
                                                             <a href="https://www.workshop-il.com/product/{{this.id}}">
-                                                            {{else}}
-                                                            <a href="http://localhost:3000/product/{{this.id}}"></a>
-                                                            {{/if}}
                                                             <img src={{this.image}} alt={{this.productName}} width="100" style="max-width: 100px;" border="0" style="display: block;">
                                                             </a>
+                                                            {{else}}
+                                                            <a href="http://localhost:3000/product/{{this.id}}">
+                                                            <img src={{this.image}} alt={{this.productName}} width="100" style="max-width: 100px;" border="0" style="display: block;">
+                                                            </a>
+                                                            {{/if}}
+                                
                                                         </td>
                                             <td width="20">&nbsp;</td>
                                             <td width="400" style="max-width: 400px;" valign="top">
@@ -320,11 +323,14 @@
                                                         <td valign="top">
                                                             {{#if prod}}
                                                             <a class="product-link" href="https://www.workshop-il.com/product/{{this.id}}">
-                                                            {{else}}
-                                                            <a class="product-link" href="http://localhost:3000/product/{{this.id}}">
-                                                            {{/if}}
                                                             <font>{{this.productName}}</font>
                                                             </a>
+                                                            {{else}}
+                                                            <a class="product-link" href="http://localhost:3000/product/{{this.id}}">
+                                                            <font>{{this.productName}}</font>
+                                                            </a>
+                                                            {{/if}}
+                                                            
                                                         </td>
                                                     </tr>
                                                     <tr>
