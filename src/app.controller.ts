@@ -17,7 +17,7 @@ export class AppController {
   // assigned middleware
   isUserConnected(@Param('encryptedUserId') encryptedUserId: string) {
     let decryptedUserId
-    decryptedUserId = cryptoJS.AES.decrypt(encryptedUserId, 'dd##$FD34tg!!!2')
+    decryptedUserId = cryptoJS.AES.decrypt(encryptedUserId, process.env.CRYPTO_SECRET)
     decryptedUserId = decryptedUserId.toString(cryptoJS.enc.Utf8);
     
     return decryptedUserId
@@ -25,7 +25,7 @@ export class AppController {
 
   @Get('register') 
   // assigned middleware
-  @Redirect(`https://workshop-il.netlify.app/register-success`)
+  @Redirect(`${process.env.ORIGIN}/register-success`)
   verifyMail() {
   }
 

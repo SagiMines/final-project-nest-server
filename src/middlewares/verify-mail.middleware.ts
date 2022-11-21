@@ -12,7 +12,7 @@ export class VerifyMailMiddleware implements NestMiddleware {
         const encryptedUserEmail = ((req.query.token).toString()).split(' ').join('+')
         let decryptedUserEmail: string
             try {
-                decryptedUserEmail = (cryptoJS.AES.decrypt(encryptedUserEmail.toString(), 'dd##$FD34tg!!!2')).toString(cryptoJS.enc.Utf8)
+                decryptedUserEmail = (cryptoJS.AES.decrypt(encryptedUserEmail.toString(), process.env.CRYPTO_SECRET)).toString(cryptoJS.enc.Utf8)
             } catch {
                 throw new HttpException('Could not decrypt the user email', HttpStatus.CONFLICT)
             }
@@ -24,7 +24,7 @@ export class VerifyMailMiddleware implements NestMiddleware {
             const addedUser = await this.usersService.findByEmail(req.session['awaitingApproval'].email)
             let encryptedUserId: string
             try {
-                encryptedUserId = (cryptoJS.AES.encrypt(addedUser['id'].toString(), 'dd##$FD34tg!!!2')).toString()
+                encryptedUserId = (cryptoJS.AES.encrypt(addedUser['id'].toString(), process.env.CRYPTO_SECRET)).toString()
             } catch {
                 throw new HttpException('Could not encrypt the user ID', HttpStatus.CONFLICT)
             }

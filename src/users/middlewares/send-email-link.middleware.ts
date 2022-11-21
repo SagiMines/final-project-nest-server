@@ -17,7 +17,7 @@ export class SendEmailLinkMiddleware implements NestMiddleware {
           
             let encryptedUserEmail: string
             try {
-                encryptedUserEmail = (cryptoJS.AES.encrypt(email, 'dd##$FD34tg!!!2')).toString()
+                encryptedUserEmail = (cryptoJS.AES.encrypt(email, process.env.CRYPTO_SECRET)).toString()
                 sendLinkViaEmail(req, email, encryptedUserEmail, 'Link to change your password')
             } catch {
               throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
@@ -30,7 +30,7 @@ export class SendEmailLinkMiddleware implements NestMiddleware {
             const encryptedUserEmail = query.token.toString().split(' ').join('+')
             let decryptedUserEmail : string
             try {
-                decryptedUserEmail = (cryptoJS.AES.decrypt(encryptedUserEmail, 'dd##$FD34tg!!!2')).toString(cryptoJS.enc.Utf8)
+                decryptedUserEmail = (cryptoJS.AES.decrypt(encryptedUserEmail, process.env.CRYPTO_SECRET)).toString(cryptoJS.enc.Utf8)
             } catch {
                 throw new HttpException('Could not decrypt the user Email', HttpStatus.CONFLICT)
             }

@@ -10,7 +10,7 @@ export class IsUserExistMiddleware implements NestMiddleware {
         const encryptedUserId = req.params.encryptedUserId
         let decryptedUserId
             try {
-                decryptedUserId = cryptoJS.AES.decrypt(encryptedUserId, 'dd##$FD34tg!!!2')
+                decryptedUserId = cryptoJS.AES.decrypt(encryptedUserId, process.env.CRYPTO_SECRET)
             } catch {
                 throw new HttpException('Could not decrypt the user ID', HttpStatus.CONFLICT)
             }

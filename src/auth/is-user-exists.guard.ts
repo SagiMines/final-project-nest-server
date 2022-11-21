@@ -21,11 +21,11 @@ export class IsUserExistGuard implements CanActivate {
         const session = context.switchToHttp().getRequest().session
         let encryptedUserId
         try {
-          encryptedUserId = cryptoJS.AES.encrypt(found.id.toString(), 'dd##$FD34tg!!!2')
+          encryptedUserId = cryptoJS.AES.encrypt(found.id.toString(), process.env.CRYPTO_SECRET)
         } catch {
           throw new HttpException('Could not encrypt the user ID', HttpStatus.CONFLICT)
         }
-        context.switchToHttp().getResponse().cookie('user_id', encryptedUserId.toString(), {domain: '.workshop-il.com', secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'})
+        context.switchToHttp().getResponse().cookie('user_id', encryptedUserId.toString(), process.env.NODE_ENV === 'production' ?  {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'} : {maxAge: 365*24*60*60*1000, httpOnly: false})
         session.authenticated = true;
         session.user = { ...found };
         if(session.awaitingApproval) {

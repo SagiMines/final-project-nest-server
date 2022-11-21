@@ -14,7 +14,7 @@ async function bootstrap() {
   const secret = configService.get('SECRET')
   const origin = configService.get('ORIGIN')
   app.enableCors({
-    "origin": 'https://www.workshop-il.com',
+    "origin": process.env.NODE_ENV === 'production' ? process.env.ORIGIN : origin,
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
@@ -26,11 +26,11 @@ async function bootstrap() {
   app.set('trust proxy', 1)
   app.use(
     session({
-      secret: 'JDSAJDIAJmdimjijm23424rofos!@!Ddcd',
+      secret: process.env.NODE_ENV === 'production' ? process.env.SECRET : secret,
       resave: false,
       saveUninitialized: false,
       //expires in 1 year
-      cookie: {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'}, 
+      cookie: process.env.NODE_ENV === 'production' ?  {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'} : {maxAge: 365*24*60*60*1000, httpOnly: false}, 
     })
   )
   app.setGlobalPrefix('api')

@@ -26,11 +26,11 @@ dotenv.config()
     isGlobal: true
   }), ProductsModule, UsersModule, CategoriesModule, ProductImagesModule, TypeOrmModule.forRoot({
     type: 'mysql',
-    host: 'eu-cdbr-west-03.cleardb.net',
+    host: process.env.HOST,
     port: 3306,
-    username: 'bed0fe8e517d5e',
-    password: '5be17ca2',
-    database: 'heroku_77e2ea182822fce',
+    username: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
     entities: ['dist/**/*.entity{.ts,.js}'],
     synchronize: false
   }), TopProductsModule, WishlistModule, OrdersModule, OrderDetailsModule, CartModule,],
