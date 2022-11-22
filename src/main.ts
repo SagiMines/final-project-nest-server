@@ -22,8 +22,10 @@ async function bootstrap() {
     "allowedHeaders": 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept',
 
   });
-  // 'https://workshop-il.netlify.app'
-  app.set('trust proxy', 1)
+
+  if(process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1)
+  }
   app.use(
     session({
       secret: process.env.NODE_ENV === 'production' ? process.env.SECRET : secret,
