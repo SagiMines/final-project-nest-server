@@ -60,7 +60,7 @@ const orderConfirmationOptions = ( email: string, user: UserDto, cartProducts: {
     cartTotalWithDiscount,
     saving : +saving.toFixed(2),
     randomness : Date.now(),
-    prod: process.env.NODE_ENV === 'production' ? 1 : 0
+    prod: process.env.NODE_ENV === 'production'
   }
 })
 
