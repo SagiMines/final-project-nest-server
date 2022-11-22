@@ -14,7 +14,7 @@ export class SendEmailLinkMiddleware implements NestMiddleware {
         const email = query.email.toString()
         if(await this.usersService.findByEmail(email)) {
             session['forgotPasswordEmail'] = email
-            console.log(session)
+          
             let encryptedUserEmail: string
             try {
                 encryptedUserEmail = (cryptoJS.AES.encrypt(email, process.env.CRYPTO_SECRET)).toString()
@@ -26,7 +26,7 @@ export class SendEmailLinkMiddleware implements NestMiddleware {
         
         } else throw new HttpException('The email provided is not related to any user in the database', HttpStatus.BAD_REQUEST)
         } else if(query.token) {
-            console.log(session)
+            
             const encryptedUserEmail = query.token.toString().split(' ').join('+')
             let decryptedUserEmail : string
             try {

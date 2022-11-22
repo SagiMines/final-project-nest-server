@@ -29,7 +29,7 @@ export class VerifyMailMiddleware implements NestMiddleware {
                 throw new HttpException('Could not encrypt the user ID', HttpStatus.CONFLICT)
             }
             
-            res.cookie('user_id', encryptedUserId, {maxAge: 365*24*60*60*1000, httpOnly: false})
+            res.cookie('user_id', encryptedUserId, process.env.NODE_ENV === 'production' ? {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'} : {maxAge: 365*24*60*60*1000, httpOnly: false})
             const session = req.session
             session['authenticated'] = true;
             session['user'] = { ...addedUser };
