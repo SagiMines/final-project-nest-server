@@ -17,6 +17,20 @@ export class IsUserExistMiddleware implements NestMiddleware {
                     next()
                 } else throw new HttpException('The order ID provided does not exist', HttpStatus.BAD_REQUEST)
             } else throw new HttpException('Wrong input', HttpStatus.BAD_REQUEST)
+        } else if(req.query.offset && req.query.take) {
+            const offset = Number(req.query.offset)
+            const take = Number(req.query.take)
+            if(!isNaN(offset) && !isNaN(take)) {
+                if(await this.usersService.findById(id)) {
+                    if((await this.ordersService.countTheOrders(id)) > (offset + take)) {
+                        next()
+                    } else throw new HttpException('The queries entered are exceeding the array length.', HttpStatus.BAD_REQUEST)
+                } else throw new HttpException('No such user exist with the given ID.', HttpStatus.BAD_REQUEST)
+            } else throw new HttpException('Bad credentials: Only numbers are accepted.', HttpStatus.BAD_REQUEST)
+        } else if(req.query.count) {
+            if(await this.usersService.findById(id)) {
+                next()
+            } else throw new HttpException('No such user exist with the given ID.', HttpStatus.BAD_REQUEST)
         }
         // Only orders details by user id
         else{
