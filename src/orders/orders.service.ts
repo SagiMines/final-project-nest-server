@@ -33,7 +33,14 @@ export class OrdersService {
     return this.ordersRepo.findOne({where: {id}, relations: ['orderDetails']})
   }
   
-  
+  getOnlyFiveOrLessOrders(userId: number, skip: number, take: number ) {
+    return this.ordersRepo.find({where: {userId}, order: {id: 'DESC'}, take, skip})
+  }
+
+  countTheOrders(userId: number) {
+    return this.ordersRepo.count({where:{userId}})
+  }
+
   // create(createOrderDto: CreateOrderDto) {
   //   return 'This action adds a new order';
   // }

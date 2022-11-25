@@ -22,11 +22,16 @@ export class OrdersController {
   
   @Get(':id')
   // assigned middleware
-  getOrdersByUserId(@Param('id', ParseIntPipe) id: number, @Query('join') join: boolean, @Req() req: Request): Promise<Orders[] | Orders>  {
+  getOrdersByUserId(@Param('id', ParseIntPipe) id: number, @Query('join') join: boolean, @Query('offset') offset: number, @Query('jump') jump: number, @Query('count') count: boolean, @Req() req: Request): Promise<Orders[] | Orders | number>  {
     if(join && !req.body.empty) {
       return this.ordersService.getJoinedOrdersAndOrderDetails(id)
-    }
-    return this.ordersService.getOrdersByUserId(id)
+    } else if( offset && jump && !req.body.empty) {
+      return this.ordersService.getOnlyFiveOrLessOrders(id, offset, jump)
+    } else if(count && !req.body.empty) {
+    
+        return this.ordersService.countTheOrders(id)
+      
+    } else  return this.ordersService.getOrdersByUserId(id)
   }
   
   @Delete(':id')
