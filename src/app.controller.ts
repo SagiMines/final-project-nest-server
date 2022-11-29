@@ -41,5 +41,9 @@ export class AppController {
     throw new HttpException('OK', HttpStatus.OK)
   }
 
-
+  @Post('contact-us')
+  //assiged middleware
+  getUserMessage() {
+    throw new HttpException('OK', HttpStatus.OK)
+  }
 }

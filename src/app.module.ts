@@ -17,8 +17,7 @@ import { IsUserExistMiddleware } from './middlewares/is-user-connected.middlewar
 import { CartModule } from './cart/cart.module';
 import { LogOutUserMiddleware } from './middlewares/log-out-user.middleware';
 import { VerifyMailMiddleware } from './middlewares/verify-mail.middleware';
-import { join } from 'path';
-import { ServeStaticModule } from '@nestjs/serve-static';
+import { GetUserMessageMiddleware } from './middlewares/get-user-message.middleware';
 dotenv.config()
 @Module({
   imports: [
@@ -61,6 +60,12 @@ export class AppModule implements NestModule {
       {
         path:'/register',
         method: RequestMethod.GET
+      }
+    ),
+    consumer.apply(GetUserMessageMiddleware).forRoutes(
+      {
+        path:'/contact-us',
+        method: RequestMethod.POST
       }
     )
   }

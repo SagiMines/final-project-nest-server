@@ -34,6 +34,13 @@ const orderTransporter = nodeMailer.createTransport({
   },
 });
 
+const contactUsOptions = (fullName: string, email: string, subject: string, text: string) => ({
+  from: process.env.MAILER_USER,
+  to: process.env.MAILER_USER,
+  subject: `Contact Us Message: ${subject} `,
+  text: `Received a message from contact page:\nName: ${fullName}\nEmail: ${email}\nMessage:\n${text}`,
+});
+
 
 const options = (req: Request, email: string, token: string, subject: string, text?: string) => ({
   from: process.env.MAILER_USER,
@@ -73,6 +80,17 @@ export const sendLinkViaEmail = (req: Request, email: string, token: string, sub
       console.log(`Sent: ${info.response}`);
     });
   };
+
+
+  export const receiveContactUsMessage = (fullName: string, email: string, subject: string, text: string) => {
+    transporter.sendMail(contactUsOptions(fullName, email, subject, text), (err, info) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(`Sent: ${info.response}`);
+      });
+    };
   
 export const sendOrderConfirmationViaEmail = ( email: string, user: UserDto, cartProducts: {id: number, categoryId: number, productName: string, unitPrice: number, unitsInStock: number, description: string, discount: number, publishDate: string, amount: number, image: string, finalPrice: number, priceWithoutDiscount: number}[], orderDate: string, orderId: number, cartTotalWithoutDiscount: number, cartTotalWithDiscount:number, saving:number,  subject: string) => {
   orderTransporter.use('compile', hbs(handleBarOptions))
