@@ -16,12 +16,14 @@ export class AddUserMiddleware implements NestMiddleware {
         const guestPasswordToMail = req.body.password
         const hashedUserPassword = await bcrypt.hash(req.body.password, salt);
         req.body.password = hashedUserPassword;
-        const session = req.session
+        // const session = req.session
+        let encryptedUserIdAndDate: string
         let encryptedUserEmail: string
         if(req.query.guest) {
             try {
                 encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
                 sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your newly created user at WorkShop!',`We've raised the glove and created an account for you!\nYour login details:\nusername: ${req.body.email}\npassword: ${guestPasswordToMail}\nSee you there!`)
+                req.body.approved = true
                 await this.usersService.addUser(req.body)
             } catch {
               throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
@@ -29,11 +31,24 @@ export class AddUserMiddleware implements NestMiddleware {
                 next()
         } else {
 
-            session['awaitingApproval'] = {...req.body}
+            // session['awaitingApproval'] = {...req.body}
     
+            // try {
+            //     encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
+            //     sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your verification link to WorkShop!')
+            // } catch {
+            //   throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
+            // }
             try {
-                encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
-                sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your verification link to WorkShop!')
+                let user
+                do {
+                    user = await this.usersService.addUser(req.body)
+                } while(!(await this.usersService.findByEmail(req.body.email)))
+                
+                // Two hours life time
+                const tokenLife = new Date().getTime() + 2 * 60 * 1000
+                encryptedUserIdAndDate = (cryptoJS.AES.encrypt(`${user.id} ${tokenLife}`, process.env.CRYPTO_SECRET)).toString()
+                sendLinkViaEmail(req, req.body.email, encryptedUserIdAndDate, 'Your verification link to WorkShop!')
             } catch {
               throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
             }

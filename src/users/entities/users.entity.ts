@@ -55,6 +55,11 @@ export class Users {
     })
     password: string
 
+    @Column({
+        nullable: true, type: 'tinyint'
+    })
+    approved: boolean
+
     @OneToMany(() => Wishlist, wishlist => wishlist.users)
     wishlist: Wishlist[]
 

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumberString, MaxLength, MinLength, IsEmail, IsString, IsInt, IsOptional } from 'class-validator'
+import { IsNotEmpty, IsNumberString, MaxLength, MinLength, IsEmail, IsString, IsInt, IsOptional, IsBoolean } from 'class-validator'
 
 export class UserDto {
     
@@ -44,4 +44,8 @@ export class UserDto {
     @MinLength(10)
     @IsString()
     password: string
+
+    @IsOptional()
+    @IsBoolean()
+    approved: boolean
 }

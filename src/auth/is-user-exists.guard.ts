@@ -18,6 +18,7 @@ export class IsUserExistGuard implements CanActivate {
       );
   
       if (arePasswordsTheSame) {
+        if(!found.approved) throw new HttpException('This user has not been approved yet', HttpStatus.BAD_GATEWAY)
         const session = context.switchToHttp().getRequest().session
         let encryptedUserId
         try {
@@ -27,10 +28,10 @@ export class IsUserExistGuard implements CanActivate {
         }
         context.switchToHttp().getResponse().cookie('user_id', encryptedUserId.toString(), process.env.NODE_ENV === 'production' ?  {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'} : {maxAge: 365*24*60*60*1000, httpOnly: false})
         session.authenticated = true;
-        session.user = { ...found };
-        if(session.awaitingApproval) {
-          delete session.awaitingApproval
-        }
+        // session.user = { ...found };
+        // if(session.awaitingApproval) {
+        //   delete session.awaitingApproval
+        // }
       } else return false
     } else return false
     return true
