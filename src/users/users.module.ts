@@ -5,6 +5,7 @@ import { GetUserMiddleware } from './middlewares/get-user.middleware';
 import { IsPasswordCorrectMiddleware } from './middlewares/is-password-correct.middleware';
 import { IsUserExistsMiddleware } from './middlewares/is-user-exists.middleware';
 import { SendEmailLinkMiddleware } from './middlewares/send-email-link.middleware';
+import { SendVerificationLinkMiddleware } from './middlewares/send-verification-link.middleware';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -37,6 +38,12 @@ export class UsersModule implements NestModule {
     consumer.apply(GetUserMiddleware).forRoutes(
       {
         path: 'users/forgotten-password-user',
+        method: RequestMethod.GET
+      }
+    ),
+    consumer.apply(SendVerificationLinkMiddleware).forRoutes(
+      {
+        path: 'users/send-verification-link',
         method: RequestMethod.GET
       }
     )

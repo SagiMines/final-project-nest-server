@@ -42,6 +42,16 @@ export class UsersController {
     getForgottenUser(@Req() req: Request): Promise<Users> {
         return this.usersService.findByEmail(req['userEmail'])
     }
+
+    @Get('send-verification-link')
+    // assigned middleware
+    @Redirect()
+    sendVerificationLink(@Query('email') email: string, @Query('token') token: string, @Req() req: Request) {
+        if(token) {
+            return process.env.NODE_ENV === 'production' ? {url: `https://server.workshop-il.com/api/register?token=${token}`} : {url: `http://localhost:8000/api/register?token=${token}`}
+        }
+        throw new HttpException('Mail sent', HttpStatus.OK)
+    }
     
 
     @Post(':id')
@@ -52,7 +62,7 @@ export class UsersController {
     
     @Post()
     addUser(@Body() user: UserDto) {
-        this.usersService.addUser(user) 
+        return this.usersService.addUser(user) 
     }
 
 

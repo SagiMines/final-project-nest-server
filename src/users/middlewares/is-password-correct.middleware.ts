@@ -7,7 +7,6 @@ import * as bcrypt from 'bcrypt'
 export class IsPasswordCorrectMiddleware implements NestMiddleware {
     constructor(private readonly usersService: UsersService){}
     async use(req: Request, res: Response, next: NextFunction) {
-        
         const enteredPassword = req.body.enteredPassword
         const userId = Number(req.params.id)
         const user = await this.usersService.findById(userId)
