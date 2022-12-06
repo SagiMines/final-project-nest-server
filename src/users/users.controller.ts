@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, Redirect, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, Redirect, Req, Res, UseGuards } from '@nestjs/common';
 import { IsUserGuard } from './auth/is-user.guard';;
 // import { AuthUserDetailsGuard } from './auth/auth-user-details.guard';
 import { UserDto } from './user-dto';
@@ -28,20 +28,32 @@ export class UsersController {
     @Redirect()
     sendEmailLink(
         @Query('email') email: string,
-        @Query('token') token: string
+        @Query('token') token: string,
+        @Query('from') from: string
     ) {
-        if(token) {
+        if(token && !from) {
             return {url: `${process.env.ORIGIN}/change-password-approved`}
+        } else if(token && from) {
+            return {url: `${process.env.ORIGIN}/change-password-approved?from=${from}`}
         }
         throw new HttpException('A link to change your password was sent via email', HttpStatus.OK)
     }
 
-    // Get the user details from the email provided in the session
+    // Get the user details from the email provided
     @Get('forgotten-password-user')
     // assigned middleware
-    getForgottenUser(@Req() req: Request): Promise<Users> {
+    getForgottenUser(@Req() req: Request) : Promise<Users> {
         return this.usersService.findByEmail(req['userEmail'])
+    } 
+
+    @Get('forgotten-password-user-redirect')
+    // assigned middleware
+    redirectd(@Query('email') email: string, @Query('from') from: string) {
+        throw new HttpException('Successfully redirected', HttpStatus.OK)
     }
+
+
+
 
     @Get('send-verification-link')
     // assigned middleware
