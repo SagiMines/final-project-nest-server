@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { UsersService } from "../users/users.service";
 import * as bcrypt from 'bcrypt'
 import * as cryptoJS from 'crypto-js'
-import {sendLinkViaEmail} from '../mailer/nodeMailer'
+import {sendLinkViaEmail, sendLinkViaEmailGuestOrderRegistration} from '../mailer/nodeMailer'
 // applies to POST requests in route /orders
 @Injectable()
 export class AddUserMiddleware implements NestMiddleware {
@@ -30,15 +30,6 @@ export class AddUserMiddleware implements NestMiddleware {
             }
                 next()
         } else {
-
-            // session['awaitingApproval'] = {...req.body}
-    
-            // try {
-            //     encryptedUserEmail = (cryptoJS.AES.encrypt(req.body.email, process.env.CRYPTO_SECRET)).toString()
-            //     sendLinkViaEmail(req, req.body.email, encryptedUserEmail, 'Your verification link to WorkShop!')
-            // } catch {
-            //   throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
-            // }
             try {
                 let user
                 do {
@@ -48,7 +39,14 @@ export class AddUserMiddleware implements NestMiddleware {
                 // Two hours life time
                 const tokenLife = new Date().getTime() + 2 * 60 * 1000
                 encryptedUserIdAndDate = (cryptoJS.AES.encrypt(`${user.id} ${tokenLife}`, process.env.CRYPTO_SECRET)).toString()
-                sendLinkViaEmail(req, req.body.email, encryptedUserIdAndDate, 'Your verification link to WorkShop!')
+                
+                if(req.query.from) {
+                    const fromPage: string = req.query.from.toString()
+                    sendLinkViaEmailGuestOrderRegistration(req, req.body.email, encryptedUserIdAndDate,'Your verification link to WorkShop!', fromPage)
+                } else {
+
+                    sendLinkViaEmail(req, req.body.email, encryptedUserIdAndDate, 'Your verification link to WorkShop!')
+                }
             } catch {
               throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
             }

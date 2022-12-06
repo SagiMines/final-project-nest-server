@@ -25,8 +25,15 @@ export class AppController {
 
   @Get('register') 
   // assigned middleware
-  @Redirect(`${process.env.ORIGIN}/register-success`)
-  verifyMail() {
+  @Redirect()
+  verifyMail(@Query('token') token: string, @Query('from') from: string) {
+    //Regular registration
+    if(token && !from) {
+      return {url: `${process.env.ORIGIN}/register-success`}
+      //Registration through order
+    } else if(token && from) {
+      return {url: `${process.env.ORIGIN}/register-success?from=${from}`}
+    }
   }
 
   @Post('register')

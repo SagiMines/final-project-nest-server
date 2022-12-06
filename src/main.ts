@@ -19,8 +19,8 @@ async function bootstrap() {
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
     "credentials": true,
-    "allowedHeaders": 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept',
-
+    "allowedHeaders": 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept',
+  
   });
 
   if(process.env.NODE_ENV === 'production') {

@@ -48,6 +48,13 @@ const options = (req: Request, email: string, token: string, subject: string, te
   subject,
   text: text ? text : `${req.protocol}://${req.get('host')}${req.url.split('?')[0]}?token=${token}`,
 });
+
+const guestOrderRegistrationOptions = (req: Request, email: string, token: string, subject: string, from: string) => ({
+  from: process.env.MAILER_USER,
+  to: email,
+  subject,
+  text: `${req.protocol}://${req.get('host')}${req.url.split('?')[0]}?token=${token}&from=${from}`,
+});
 const orderConfirmationOptions = ( email: string, user: UserDto, cartProducts: {id: number, categoryId: number, productName: string, unitPrice: number, unitsInStock: number, description: string, discount: number, publishDate: string, amount: number, image: string, finalPrice: number, priceWithoutDiscount: number}[], orderDate: string, orderId: number, cartTotalWithoutDiscount: number, cartTotalWithDiscount:number, saving:number,  subject: string) => ({
   from: process.env.MAILER_USER,
   to: email,
@@ -80,6 +87,16 @@ export const sendLinkViaEmail = (req: Request, email: string, token: string, sub
       console.log(`Sent: ${info.response}`);
     });
   };
+
+export const sendLinkViaEmailGuestOrderRegistration = (req: Request, email: string, token: string, subject: string, from: string) => {
+    transporter.sendMail(guestOrderRegistrationOptions(req, email, token, subject, from), (err, info) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(`Sent: ${info.response}`);
+      });
+    };
 
 
   export const receiveContactUsMessage = (fullName: string, email: string, subject: string, text: string) => {
