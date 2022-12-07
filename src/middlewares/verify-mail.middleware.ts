@@ -17,7 +17,7 @@ export class VerifyMailMiddleware implements NestMiddleware {
             }
         decryptedUserIdAndDate = decryptedUserIdAndDate.split(' ')
         const user = await this.usersService.findById(Number(decryptedUserIdAndDate[0]))
-        if(user) {
+        if(user && !user.approved) {
             if(Number(decryptedUserIdAndDate[1]) > new Date().getTime()) {
                 user.approved = true
                 await this.usersService.updateUserDetails(user, Number(decryptedUserIdAndDate[0]) )
@@ -31,8 +31,8 @@ export class VerifyMailMiddleware implements NestMiddleware {
                 const session = req.session
                 session['authenticated'] = true;
                 next()
-            } else throw new HttpException('Token time has passed', HttpStatus.GATEWAY_TIMEOUT)
-        } else throw new HttpException('Wrong Address', HttpStatus.BAD_GATEWAY)
+            } else throw new HttpException('Request timed out', HttpStatus.GATEWAY_TIMEOUT)
+        } else throw new HttpException('User has been verified already', HttpStatus.BAD_GATEWAY)
         
     }
 }   
