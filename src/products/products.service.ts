@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository, UpdateResult } from 'typeorm';
+import { Like, Not, Repository, UpdateResult } from 'typeorm';
 import { Products } from './entities/products.entity';
 import { ProductDto } from './product-dto';
 
@@ -29,19 +29,21 @@ export class ProductsService {
     }
 
     getProductsSortedByPriceASC(categoryId: number): Promise<Products[]> {
-        return this.productsRepo.find(
-            {
-                where:{categoryId},
-                order:{unitPrice: 'ASC'}
-        })
+        return this.productsRepo
+        .createQueryBuilder('products')
+        .select(['products.id AS id','products.categoryId AS categoryId','products.productName AS productName','products.unitPrice AS unitPrice','products.unitsInStock AS unitsInStock','products.description AS description','products.discount AS discount','products.publishDate AS publishDate','(products.unitPrice - (products.unitPrice * (IFNULL(products.discount, 0) * 0.01))) AS discountedPrice'])
+        .where('products.categoryId = :categoryId', {categoryId})
+        .orderBy('9', 'ASC')
+        .getRawMany()
     }
 
     getProductsSortedByPriceDESC(categoryId: number): Promise<Products[]> {
-        return this.productsRepo.find(
-            {
-                where:{categoryId},
-                order:{unitPrice: 'DESC'}
-        })
+        return this.productsRepo
+        .createQueryBuilder('products')
+        .select(['products.id AS id','products.categoryId AS categoryId','products.productName AS productName','products.unitPrice AS unitPrice','products.unitsInStock AS unitsInStock','products.description AS description','products.discount AS discount','products.publishDate AS publishDate','(products.unitPrice - (products.unitPrice * (IFNULL(products.discount, 0) * 0.01))) AS discountedPrice'])
+        .where('products.categoryId = :categoryId', {categoryId})
+        .orderBy('9', 'DESC')
+        .getRawMany()
     }
 
     getSearchValues(value: string): Promise<Products[]> {
