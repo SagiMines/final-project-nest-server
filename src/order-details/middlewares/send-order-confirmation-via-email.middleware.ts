@@ -8,6 +8,7 @@ import { sendOrderConfirmationViaEmail } from "./../../mailer/nodeMailer";
 export class SendOrderConfirmationViaEmailMiddleware implements NestMiddleware {
     constructor(private readonly ordersService: OrdersService, private readonly usersService: UsersService ){}
     async use(req: Request, res: Response, next: NextFunction) {
+        const session = req.session
         const reqBody = req.body
         let userEmail : string
         const user = reqBody.user
@@ -26,6 +27,7 @@ export class SendOrderConfirmationViaEmailMiddleware implements NestMiddleware {
 
         
         sendOrderConfirmationViaEmail(userEmail, user, cartProducts, orderDate, orderId, cartTotalWithoutDiscount, cartTotalWithDiscount, saving, `Thanks for your order!`)
+        session['order-complete'] = true
         next()
     }
     

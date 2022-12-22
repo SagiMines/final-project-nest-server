@@ -30,6 +30,10 @@ export class VerifyMailMiddleware implements NestMiddleware {
                 res.cookie('user_id', encryptedUserId, process.env.NODE_ENV === 'production' ? {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'} : {maxAge: 365*24*60*60*1000, httpOnly: false})
                 const session = req.session
                 session['authenticated'] = true;
+                if(session['register-verified']) {
+                    delete session['register-verified']
+                }
+                session['register-done'] = true
                 next()
             } else throw new HttpException('Request timed out', HttpStatus.GATEWAY_TIMEOUT)
         } else throw new HttpException('User has been verified already', HttpStatus.BAD_GATEWAY)
