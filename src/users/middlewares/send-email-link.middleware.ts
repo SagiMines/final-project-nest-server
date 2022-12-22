@@ -30,6 +30,7 @@ export class SendEmailLinkMiddleware implements NestMiddleware {
             } catch {
               throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
             }
+            session['email-verified'] = true 
             next()
         
         } else throw new HttpException('The email provided is not related to any user in the database', HttpStatus.BAD_REQUEST)
@@ -56,6 +57,8 @@ export class SendEmailLinkMiddleware implements NestMiddleware {
 
                 if(await this.usersService.findByEmail(decryptedUserEmail[0])) {
                     res.cookie('forgot-password', encryptedUserEmailToCookie, process.env.NODE_ENV === 'production' ? {domain: '.workshop-il.com',  secure: true, maxAge: 365*24*60*60*1000, httpOnly: false, sameSite: 'none'} : {maxAge: 365*24*60*60*1000, httpOnly: false})
+                    delete session['email-verified']
+                    session['email-approved'] = true
                     next()
                 } else throw new HttpException('The email provided is not related to any user in the database', HttpStatus.BAD_REQUEST)
             } else throw new HttpException('Request timed out', HttpStatus.REQUEST_TIMEOUT)

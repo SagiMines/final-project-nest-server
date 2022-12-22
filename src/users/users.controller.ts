@@ -21,7 +21,28 @@ export class UsersController {
         return this.usersService.findByEmail(email)
     }
 
+    // Authenticate user to enable certain paths
+    @Get('authenticate-user') 
+    authenticateUser(@Req() req: Request) {
+        const session = req.session
+        if(!session['authenticated']) {
+            session['authenticated'] = true
+        }
+        return true
+    }
 
+    @Get('update-authentication/:pathToCheck')
+    updateAuthentication(@Req() req: Request, @Param('pathToCheck') pathToCheck: string) {
+        const session = req.session
+        console.log(pathToCheck)
+        if(pathToCheck === 'change-password' || pathToCheck === 'change-password-approved') {
+            delete session['email-approved']
+            session['finished-forgot-password'] = true
+        } else if(pathToCheck === 'change-password-success') {
+            delete session['finished-forgot-password']
+        }
+        return true
+    }
 
     @Get('forgot-password')
     // assigned middleware
@@ -29,13 +50,16 @@ export class UsersController {
     sendEmailLink(
         @Query('email') email: string,
         @Query('token') token: string,
-        @Query('from') from: string
+        @Query('from') from: string,
     ) {
+        
         if(token && !from) {
+            
             return {url: `${process.env.ORIGIN}/change-password-approved`}
         } else if(token && from) {
             return {url: `${process.env.ORIGIN}/change-password-approved?from=${from}`}
         }
+        
         throw new HttpException('A link to change your password was sent via email', HttpStatus.OK)
     }
 
