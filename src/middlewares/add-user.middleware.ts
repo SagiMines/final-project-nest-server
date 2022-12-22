@@ -16,7 +16,7 @@ export class AddUserMiddleware implements NestMiddleware {
         const guestPasswordToMail = req.body.password
         const hashedUserPassword = await bcrypt.hash(req.body.password, salt);
         req.body.password = hashedUserPassword;
-        // const session = req.session
+        const session = req.session
         let encryptedUserIdAndDate: string
         let encryptedUserEmail: string
         if(req.query.guest) {
@@ -50,7 +50,7 @@ export class AddUserMiddleware implements NestMiddleware {
             } catch {
               throw new HttpException('Could not encrypt the user email', HttpStatus.CONFLICT)
             }
-    
+            session['register-verified'] = true
             next()
         }
 

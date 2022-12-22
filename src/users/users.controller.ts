@@ -40,6 +40,10 @@ export class UsersController {
             session['finished-forgot-password'] = true
         } else if(pathToCheck === 'change-password-success') {
             delete session['finished-forgot-password']
+        } else if(pathToCheck === 'register-success') {
+            delete session['register-done']
+        } else if(pathToCheck === 'order-confirmation') {
+            delete session['order-complete']
         }
         return true
     }

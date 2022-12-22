@@ -19,6 +19,12 @@ export class IsUserAuthenticatedGuard implements CanActivate {
         return false
     } else if(pathToCheck === 'change-password-success' && !session['finished-forgot-password']) {
         return false
+    } else if(pathToCheck === 'email-confirmation-register' && !session['register-verified']) {
+        return false
+    } else if(pathToCheck === 'register-success' && !session['register-done']) {
+        return false
+    } else if(pathToCheck === 'order-confirmation' && !session['order-complete']) {
+        return false
     }
     return true
   }
