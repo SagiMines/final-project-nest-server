@@ -16,9 +16,11 @@ export class SendOrderConfirmationViaEmailMiddleware implements NestMiddleware {
         const orderDate = reqBody.orderDate
         const orderId = reqBody.orderId
         const cartTotalWithoutDiscount = reqBody.cartTotalWithoutDiscount
-        const cartTotalWithDiscount = reqBody.cartTotalWithDiscount
+        const cartTotalWithDiscount = +reqBody.cartTotalWithDiscount.toFixed(2)
         const saving = reqBody.saving
-        
+        for(const product of cartProducts) {
+            product.finalPrice = +product.finalPrice.toFixed(2)
+        }
         if(reqBody.user)  {
             userEmail = reqBody.user.email
         } else {
