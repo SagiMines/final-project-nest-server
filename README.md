@@ -24,7 +24,7 @@ Welcome to the E-Commerce Work Tools Shop, a secure and efficient platform for p
 
 Use the [Live Demo](https://www.workshop-il.com/)
 
-Or install locally:
+**Or install locally:**
 
 To get started with the Work Shop web application, follow these steps:
 
@@ -35,7 +35,7 @@ git clone https://github.com/SagiMines/final-project-nest-server.git
 cd final-project-nest-server
 ```
 
-2. Install the necessary dependencies for the front-end.
+2. Install the necessary dependencies for the server.
 
 ```bash
 npm install
@@ -55,16 +55,16 @@ npm run start:dev
 
 To run this project locally, you will need to add an `.env` file to the root of the project with the following environment variables included:
 
-General:
+**General:**
 
 `ORIGIN` - The route of the client-side (e.g localhost:3000).  
 `PORT` - Port of the server (e.g 8000).
 
-Session:
+**Session:**
 
 `SECRET` - Session's secret string for the hash validation (The longer the better).
 
-Database connection:
+**Database connection:**
 
 `TYPE` - Type of your database (e.g mysql, postgres)  
 `HOST` - Your database host.  
@@ -72,11 +72,11 @@ Database connection:
 `USER` - Your database user.  
 `PASSWORD` - Your database password.
 
-User's Password Encryption/Decryption:
+**User's Password Encryption/Decryption:**
 
 `CRYPTO_SECRET` - CryptoJS library secret string for validating the password and applying encryption/decryption on it (The longer the better).
 
-Node Mailer Library:
+**Node Mailer Library:**
 
 `MAILER_SERVICE` - Your Email Provider (e.g Gmail, Yahoo).  
 `MAILER_USER` - Your Email address.  
